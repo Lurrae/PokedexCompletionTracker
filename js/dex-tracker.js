@@ -3,11 +3,13 @@
 const cantTransfer = [
 	'groudon-primal',
 	'kyogre-primal',
+	'cherrim-sunshine',
 	'dialga-origin',
 	'palkia-origin',
 	'giratina-origin',
 	'kyurem-black',
 	'kyurem-white',
+	'keldeo-resolute',
 	'necrozma-dawnwings',
 	'necrozma-duskmane',
 	'necrozma-ultra',
@@ -29,6 +31,7 @@ const cantStoreDirectly = [
 	'darmanitan-zen',
 	'darmanitan-galarzen',
 	'greninja-ash',
+	'aegislash-blade',
 	'zygarde-complete'
 ];
 const notInMyGames = [
@@ -132,6 +135,9 @@ function refreshBoxes() {
 
 			let i = 0;
 			let j = 0;
+			let speciesNum = 0;
+			let newHeader = document.createElement('div');
+			newHeader.classList.add('box-header');
 			speciesList.forEach(line => {
 				line = line.trim();
 				let url = `http://play.pokemonshowdown.com/sprites/gen5/${line}.png`;
@@ -180,12 +186,25 @@ function refreshBoxes() {
 					newBox.appendChild(newMon);
 					i++;
 
+					// speciesNum only increments for things that aren't a form
+					// Usually, anything with a "-" in the name is a form, but some Pokemon (like Unown and Shellos)
+					// don't have any non-form variants, so we need to account for those
+					if (isDefaultForm(line))
+						speciesNum++;
+
+					if (newHeader.innerHTML === "")
+						newHeader.innerHTML = `Box ${j+1} (#${String(speciesNum).padStart(4, "0")}-`;
+
 					// Each box can only hold 30 Pokemon, so after the 30th one we need to start a new box
 					if (i >= 30)
 					{
 						boxesGrid.appendChild(newBox);
 						i = 0;
 						j++;
+						newHeader.innerHTML += `#${String(speciesNum).padStart(4, "0")})`;
+						newBox.prepend(newHeader);
+						newHeader = document.createElement('div');
+						newHeader.classList.add('box-header');
 						newBox = document.createElement('div');
 						newBox.classList.add('box');
 					}
@@ -193,6 +212,8 @@ function refreshBoxes() {
 			})
 
 			boxesGrid.appendChild(newBox);
+			newHeader.innerHTML += `#${String(speciesNum).padStart(4, "0")})`;
+			newBox.prepend(newHeader);
 			updateProgressBar();
 		})
 }
@@ -305,12 +326,13 @@ function saveCheckboxes()
 function checkForm(species)
 {
 	// Automatically return true if this is not a form of any Pokemon
-	if (!species.includes('-'))
+	if (isDefaultForm(species))
 		return true;
 
 	// Regional forms (has to ignore Pikachu because of the hat forms' naming conventions matching regional forms)
 	if (!species.includes('pikachu'))
-		if (species.includes('-alola') || species.includes('-galar') || species.includes('-hisui'))
+		if (species.includes('-alola') || species.includes('-galar') ||
+			species.includes('-hisui') || species.includes('-paldea'))
 			return document.getElementById('regionalToggle').checked;
 
 	// Gender variants (w/ failsafe for female megas)
@@ -322,16 +344,31 @@ function checkForm(species)
 		return document.getElementById('genderToggle').checked;
 	}
 
-	// Mega Evolutions
-	if (species.includes('-mega'))
+	// Mega Evolutions (w/ failsafe for Mega Floette and Mega Zygarde)
+	if (species.includes('-mega')) {
+		if (species === 'floette-mega')
+			return document.getElementById('azFloetteToggle').checked &&
+				document.getElementById('megaToggle').checked;
+		if (species === 'zygarde-mega')
+			return document.getElementById('zygardeToggle').checked &&
+				document.getElementById('megaToggle').checked;
 		return document.getElementById('megaToggle').checked;
+	}
 
-	// Gigantamax
-	if (species.includes('-gmax'))
+	// Gigantamax (w/ failsafe for Gmax Urshifu)
+	if (species.includes('gmax')) {
+		if (species.includes('urshifu-rapid'))
+			return document.getElementById('urshifuToggle').checked &&
+				document.getElementById('gmaxToggle').checked;
 		return document.getElementById('gmaxToggle').checked;
+	}
 	// Hat/Cosplay Pikachus (uses if-else to avoid gmax Pikachu being affected)
 	else if (species.includes('pikachu') && species !== 'pikachu-f')
 		return document.getElementById('pikaFormToggle').checked;
+
+	// Therian forms
+	if (species.includes('-therian'))
+		return document.getElementById('therianToggle').checked;
 
 	// All other species-specific forms
 	if (species.includes('castform'))
@@ -346,17 +383,102 @@ function checkForm(species)
 		return document.getElementById('terapagosToggle').checked;
 	if (species.includes('unown'))
 		return document.getElementById('unownToggle').checked;
+	if (species.includes('deoxys'))
+		return document.getElementById('deoxysToggle').checked;
+	if (species.includes('flabebe') || species.includes('floette') || species.includes('florges')) {
+		if (species === 'floette-eternal') // Special case
+			return document.getElementById('azFloetteToggle').checked;
+		return document.getElementById('flabebeToggle').checked;
+	}
+	if (species.includes('pumpkaboo') || species.includes('gourgeist'))
+		return document.getElementById('pumpkabooToggle').checked;
+	if (species.includes('minior'))
+		return document.getElementById('miniorToggle').checked;
+	if (species.includes('-antique') || species.includes('-artisan') || species.includes('-masterpiece'))
+		return document.getElementById('sinisteaToggle').checked;
+	if (species.includes('alcremie'))
+		return document.getElementById('alcremieToggle').checked;
+	if (species.includes('urshifu'))
+		return document.getElementById('urshifuToggle').checked;
+	if (species.includes('maushold') || species.includes('dudunsparce'))
+		return document.getElementById('mausholdToggle').checked;
+	if (species.includes('gimmighoul'))
+		return document.getElementById('gimmighoulToggle').checked;
+	if (species.includes('terapagos'))
+		return document.getElementById('terapagosToggle').checked;
+	if (species.includes('arceus') || species.includes('silvally'))
+		return document.getElementById('arceusFormToggle').checked;
+	if (species.includes('zygarde'))
+		return document.getElementById('zygardeToggle').checked;
+	if (species.includes('burmy') || species.includes('wormadam'))
+		return document.getElementById('burmyToggle').checked;
+	if (species.includes('shellos') || species.includes('gastrodon'))
+		return document.getElementById('shellosToggle').checked;
+	if (species.includes('deerling') || species.includes('sawsbuck'))
+		return document.getElementById('deerlingToggle').checked;
+	if (species.includes('lycanroc'))
+		return document.getElementById('lycanrocToggle').checked;
+	if (species.includes('oricorio'))
+		return document.getElementById('oricorioToggle').checked;
+	if (species.includes('squawkabilly'))
+		return document.getElementById('squawkabillyToggle').checked;
+	if (species.includes('ursaluna'))
+		return document.getElementById('ursalunaToggle').checked;
+	if (species.includes('tatsugiri'))
+		return document.getElementById('tatsuToggle').checked;
 
 	// Fusions
-	if (species.includes('kyurem') || species.includes('necrozma') || species.includes('calyrex'))
+	if (species.includes('kyurem') || species.includes('necrozma') || species.includes('calyrex')) {
+		if (species === 'necrozma-ultra') // Special case
+			return document.getElementById('battleFormToggle').checked;
 		return document.getElementById('fusionToggle').checked;
+	}
 
-	// Item-based transformations (Arceus, Silvally, primal and origin forms, Zacian/Zamazenta, and Ogerpon)
+	// Event-exclusive forms (Magearna, Zarude)
+	if (species.includes('magearna') || species.includes('zarude'))
+		return document.getElementById('eventToggle').checked;
+
+	// Item-based transformations (primal and origin forms, Shaymin, Genesect, Hoopa, Zacian/Zamazenta, and Ogerpon)
 	if (species.includes('-primal') || species.includes('-origin') ||
-		species.includes('arceus') || species.includes('silvally') ||
-		species.includes('-crowned') || species.includes('ogerpon'))
+		species.includes('genesect') || species.includes('-crowned') ||
+		species.includes('ogerpon') || species.includes('shaymin') || species.includes('hoopa'))
 		return document.getElementById('itemFormToggle').checked;
+
+	// In-battle transformations (Cherrim, Meloette, Keldeo, Aegislash, Ash-Greninja)
+	if (species.includes('cherrim') || species.includes('meloetta') ||
+		species.includes('keldeo') || species.includes('aegislash') || species === 'greninja-ash')
+		return document.getElementById('battleFormToggle').checked;
 
 	// Automatically returns true for any forms not tied to the toggles
 	return true;
+}
+
+function isDefaultForm(species)
+{
+	// Hyphens normally indicate a form, but there are some special cases that we'll have to account for
+	if (!species.includes('-'))
+		return true;
+
+	// Unown has "-a" as its default form
+	if (species === 'unown-a')
+		return true;
+
+	// Burmy and Wormadam have "-plant" as their default forms
+	if (species === 'burmy-plant' || species === 'wormadam-plant')
+		return true;
+
+	// Shellos and Gastrodon have "-east" as their default forms
+	if (species === 'shellos-east' || species === 'gastrodon-east')
+		return true;
+
+	// Deerling and Sawsbuck have "-spring" as their default forms
+	if (species === 'deerling-spring' || species === 'sawsbuck-spring')
+		return true;
+
+	// Lycanroc has "-midday" as its default form
+	if (species === 'lycanroc-midday')
+		return true;
+
+	// Return false for anything else, since it's almost certainly a form
+	return false;
 }

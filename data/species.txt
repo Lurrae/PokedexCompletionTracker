@@ -425,7 +425,7 @@ Grovyle
 Sceptile
 Sceptile-mega
 Torchic
-Torchic
+Torchic-f
 Combusken
 Combusken-f
 Blaziken
@@ -652,9 +652,9 @@ Vespiquen
 Pachirisu
 Pachirisu-f
 Buizel
-Buizel
+Buizel-f
 Floatzel
-Floatzel
+Floatzel-f
 Cherubi
 Cherrim
 Cherrim-sunshine
@@ -1192,7 +1192,7 @@ Silvally-dragon
 Silvally-dark
 Silvally-steel
 Silvally-fairy
-Minior-red
+Minior
 Minior-orange
 Minior-yellow
 Minior-green

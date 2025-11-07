@@ -15,10 +15,17 @@
 
 #formToggles, #gameToggles {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
 	background-color: cornflowerblue;
 	padding: 15px;
 	border-radius: 10px;
+}
+
+#gameToggles {
+	grid-template-columns: repeat(2, 1fr);
+}
+
+#formToggles {
+	grid-template-columns: repeat(5, 1fr);
 }
 
 .firstToggleHead {
@@ -51,11 +58,20 @@ div.toggleHead {
 .box {
 	display: grid;
 	grid-template-columns: repeat(6, 72px);
-	grid-template-rows: repeat(5, 72px);
+	grid-template-rows: auto repeat(5, 72px);
 	gap: 7px;
 	background-color: cornflowerblue;
 	padding: 7px;
 	width: fit-content;
+	border-radius: 10px;
+}
+
+.box-header {
+	grid-column: 1 / -1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 5px 0;
 }
 
 .pkmn {
@@ -121,5 +137,9 @@ div.toggleHead {
 
 	.pkmn {
 		font-size: 6px;
+	}
+
+	#formToggles {
+		grid-template-columns: repeat(2, 1fr);
 	}
 }
