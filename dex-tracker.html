@@ -1,10 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+	<meta charset="UTF-8">
+	<title>Lurrae's Living Dex Completion Tracker</title>
+	<link rel="stylesheet" href="css/dex-tracker.css" />
+	<script src="js/dex-tracker.js"></script>
 </head>
 <body>
-$END$
+	<h2>Lurrae's Living Dex Completion Tracker</h2>
+	<p>
+		This gigantic page contains dozens of 30-slot boxes just like those in Pokemon HOME!<br/>
+		With this, you can easily keep track of what Pokemon you've caught for something like a living dex.
+		Click a Pokemon to mark it as "seen", then click it again to mark it as "caught"! Click a third time and it'll reset back to unseen.
+	</p>
+	<p>Here's a key for what all the background and outline colors mean:</p>
+	<ul>
+		<li>Dark red outline - These Pokemon cannot be stored in HOME in any meaningful capacity. Primarily, this includes forms that rely on held items (like Mega Evolutions) or fusion forms.</li>
+		<li>Yellow outline - These Pokemon can't be stored in HOME directly, but there is some factor that can differentiate them. For example, Gigantamax Pokemon have the Gigantamax Factor, and Meloetta-Pirouette has Relic Song.</li>
+		<li>Gray background - This is a Pokemon which, as of 11/05/2025, is only available in Pokemon GO. This excludes anything that could be obtained through events or is available in non-Switch games.</li>
+		<li>Red background - This is a Pokemon which, as of 11/05/2025, is completely unavailable in any Switch-era game, usually because it was a limited-time event that is no longer available (such as Zarude or Magearna)</li>
+		<li>Orange background - This is a Pokemon that either requires online features (such as Union Circles in S/V) or are only available in a game which you haven't marked as owning.</li>
+		<li>Yellow background - This is a Pokemon you've marked as "seen". I use this to track Pokemon I've acquired in a game but have not yet transfered to HOME.</li>
+		<li>Green background - This is a Pokemon you've marked as "caught", meaning it's been stored in HOME. Good job!</li>
+	</ul>
+	<label id="progressLabel" for="dexProgress">Pokedex Completion Progress:</label>
+	<meter id="dexProgress" min="0" max="1025" value="0"></meter>
+	<div id="toggles">
+		<div id="gameToggles">
+			<h3 class="toggleHead">Available Games:</h3>
+			<div class="firstToggleHead">Gen 7:</div>
+			<div class="toggle">
+				<input type="checkbox" id="pikachuToggle">
+				<label for="pikachuToggle">Let's Go Pikachu</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="eeveeToggle">
+				<label for="eeveeToggle">Let's Go Eevee</label>
+			</div>
+			<div class="toggleHead">Gen 8:</div>
+			<div class="toggle">
+				<input type="checkbox" id="swordToggle">
+				<label for="swordToggle">Sword (basegame)</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="shieldToggle">
+				<label for="shieldToggle">Shield (basegame)</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="swordCrownToggle">
+				<label for="swordCrownToggle">Crown Tundra (Sword)</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="swordArmorToggle">
+				<label for="swordArmorToggle">Isle of Armor (Sword)</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="shieldCrownToggle">
+				<label for="shieldCrownToggle">Crown Tundra (Shield)</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="shieldArmorToggle">
+				<label for="shieldArmorToggle">Isle of Armor (Shield)</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="arceusToggle">
+				<label for="arceusToggle">Legends Arceus</label>
+			</div>
+			<div class="toggleHead">Gen 9:</div>
+			<div class="toggle">
+				<input type="checkbox" id="scarletToggle">
+				<label for="scarletToggle">Scarlet (basegame)</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="violetToggle">
+				<label for="violetToggle">Violet (basegame)</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="scarletTealToggle">
+				<label for="scarletTealToggle">The Teal Mask (Scarlet)</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="scarletIndigoToggle">
+				<label for="scarletIndigoToggle">The Indigo Disk (Scarlet)</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="violetTealToggle">
+				<label for="violetTealToggle">The Teal Mask (Violet)</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="violetIndigoToggle">
+				<label for="violetIndigoToggle">The Indigo Disk (Violet)</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="zaToggle">
+				<label for="zaToggle">Legends Z-A</label>
+			</div>
+		</div>
+		<div id="formToggles">
+			<h3 class="toggleHead">Forms to Include:</h3>
+			<div class="firstToggleHead">Common Variations:</div>
+			<div class="toggle">
+				<input type="checkbox" id="regionalToggle">
+				<label for="regionalToggle">Regional Variants</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="genderToggle">
+				<label for="genderToggle">Gender Variants</label>
+			</div>
+			<div class="toggleHead">Generational Gimmicks:</div>
+			<div class="toggle">
+				<input type="checkbox" id="megaToggle">
+				<label for="megaToggle">Mega Evolutions</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="gmaxToggle">
+				<label for="gmaxToggle">Gigantamax</label>
+			</div>
+			<div class="toggleHead">Species-Specific:</div>
+			<div class="toggle">
+				<input type="checkbox" id="pikaFormToggle">
+				<label for="pikaFormToggle">Cosplay & Hat Pikachus</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="castformToggle">
+				<label for="castformToggle">Castform Weather Forms</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="furfrouToggle">
+				<label for="furfrouToggle">Furfrou Trims</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="vivillonToggle">
+				<label for="vivillonToggle">Vivillon Patterns</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="rotomToggle">
+				<label for="rotomToggle">Rotom Appliances</label>
+			</div>
+			<div class="toggleHead">Other:</div>
+			<div class="toggle">
+				<input type="checkbox" id="fusionToggle">
+				<label for="fusionToggle">Fusions</label>
+			</div>
+			<div class="toggle">
+				<input type="checkbox" id="itemFormToggle">
+				<label for="itemFormToggle">Item-Based Transformations</label>
+			</div>
+		</div>
+	</div>
+	<div id="boxes"></div>
 </body>
 </html>

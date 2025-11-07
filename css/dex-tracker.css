@@ -1,0 +1,125 @@
+#progressLabel {
+	padding-right: 20px;
+}
+
+#dexProgress {
+	width: 500px;
+}
+
+#toggles {
+	margin-top: 20px;
+	display: flex;
+	width: fit-content;
+	gap: 20px;
+}
+
+#formToggles, #gameToggles {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	background-color: cornflowerblue;
+	padding: 15px;
+	border-radius: 10px;
+}
+
+.firstToggleHead {
+	grid-column: 1 / -1;
+	font-weight: bold;
+}
+
+.toggleHead {
+	grid-column: 1 / -1;
+}
+
+div.toggleHead {
+	margin-top: 25px;
+	font-weight: bold;
+}
+
+#formToggles > h3, #gameToggles > h3 {
+	margin-top: 0;
+	text-align: center;
+}
+
+#boxes {
+	margin-top: 20px;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 15px;
+	width: fit-content;
+}
+
+.box {
+	display: grid;
+	grid-template-columns: repeat(6, 72px);
+	grid-template-rows: repeat(5, 72px);
+	gap: 7px;
+	background-color: cornflowerblue;
+	padding: 7px;
+	width: fit-content;
+}
+
+.pkmn {
+	display: flex;
+	flex-wrap: wrap;
+	box-sizing: border-box;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	background-color: white;
+	border-radius: 10px;
+	transition: transform 0.2s;
+	font-size: 12px;
+}
+
+.pkmn:hover {
+	transform: scale(1.05);
+}
+
+.pkmn > img {
+	width: 100%;
+	height: auto;
+}
+
+.not-in-my-games {
+	background-color: #F9CB9C;
+}
+
+.not-available {
+	background-color: #F4CCCC;
+}
+
+.go-only {
+	background-color: gray;
+}
+
+.seen {
+	background-color: #FFF2CC;
+}
+
+.caught {
+	background-color: #B6D7A8;
+}
+
+.mega {
+	border: 3px solid #990000;
+}
+
+.gmax {
+	border: 3px solid #F1C232;
+}
+
+@media screen and (max-width: 768px) {
+	#boxes {
+		gap: 5px;
+	}
+
+	.box {
+		grid-template-columns: repeat(6, 36px);
+		grid-template-rows: repeat(5, 36px);
+		gap: 3px;
+	}
+
+	.pkmn {
+		font-size: 6px;
+	}
+}
