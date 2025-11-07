@@ -107,14 +107,25 @@ const notInAnySwitchGame = [
 let checkedBoxes = [];
 let gameToggles;
 let formToggles;
+let boxesGrid;
 
 document.addEventListener('DOMContentLoaded', function() {
-	const boxesGrid = document.querySelector('#boxes');
+	boxesGrid = document.getElementById('boxes');
 	gameToggles = document.getElementById('gameToggles');
 	formToggles = document.getElementById('formToggles');
+	loadCheckboxes();
+	refreshBoxes();
+
+	document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+		checkbox.addEventListener('click', saveCheckboxes);
+	})
+})
+
+function refreshBoxes() {
 	fetch('data/species.txt')
 		.then(res => res.text())
 		.then(speciesData => {
+			boxesGrid.innerHTML = '';
 			let newBox = document.createElement('div');
 			let speciesList = speciesData.toLowerCase().split('\n');
 			newBox.classList.add('box');
@@ -126,72 +137,71 @@ document.addEventListener('DOMContentLoaded', function() {
 				let url = `http://play.pokemonshowdown.com/sprites/gen5/${line}.png`;
 				if (line.includes('/'))
 					url = `http://play.pokemonshowdown.com/sprites/${line}.png`;
-				let newMon = document.createElement('div');
-				newMon.classList.add('pkmn');
-
-				// Update the per-species static formatting
-				if (line.includes("-mega") || cantTransfer.includes(line))
-					newMon.classList.add('mega');
-				if (line.includes("gmax") || cantStoreDirectly.includes(line))
-					newMon.classList.add('gmax');
-				if (line === 'gimmighoul-roaming' || line === 'meltan' || line === 'melmetal')
-					newMon.classList.add('go-only');
-				// TODO: This needs to check what Pokemon are available in what games, which is gonna be painful...
-				if (notInMyGames.includes(line))
-					newMon.classList.add('not-in-my-games');
-				if (notInAnySwitchGame.includes(line))
-					newMon.classList.add('not-available');
-
-				// Check if the species is in the save data, if not add it, if it is check whether it was seen or caught
-				let savedMon = JSON.parse(localStorage.getItem(line));
-				if (savedMon !== null)
+				// Check if this is a form of a Pokemon, and if so, make sure it's not disabled
+				// The Pokemon won't be added if checkForm determines that it is disabled
+				if (checkForm(line))
 				{
-					if (savedMon.seen)
-						newMon.classList.add('seen');
-					if (savedMon.caught)
-						newMon.classList.add('caught');
-				}
-				else
-				{
-					updateSaveData(line, false, false);
-				}
+					let newMon = document.createElement('div');
+					newMon.classList.add('pkmn');
 
-				newMon.innerHTML = `<img src="${url}" alt="${line}" />`;
-				newMon.dataset.name = line;
-				newMon.addEventListener("click", clickMon);
-				newMon.addEventListener("keydown", (e) => {
-					if (e.key === "Enter" || e.key === " ") clickMon({ currentTarget: newMon });
-				});
-				newBox.appendChild(newMon);
-				i++;
+					// Update the per-species static formatting
+					if (line.includes("-mega") || cantTransfer.includes(line))
+						newMon.classList.add('mega');
+					if (line.includes("gmax") || cantStoreDirectly.includes(line))
+						newMon.classList.add('gmax');
+					if (line === 'gimmighoul-roaming' || line === 'meltan' || line === 'melmetal')
+						newMon.classList.add('go-only');
+					// TODO: This needs to check what Pokemon are available in what games, which is gonna be painful...
+					if (notInMyGames.includes(line))
+						newMon.classList.add('not-in-my-games');
+					if (notInAnySwitchGame.includes(line))
+						newMon.classList.add('not-available');
 
-				// Each box can only hold 30 Pokemon, so after the 30th one we need to start a new box
-				if (i >= 30)
-				{
-					boxesGrid.appendChild(newBox);
-					i = 0;
-					j++;
-					newBox = document.createElement('div');
-					newBox.classList.add('box');
+					// Check if the species is in the save data, if not add it, if it is check whether it was seen or caught
+					let savedMon = JSON.parse(localStorage.getItem(line));
+					if (savedMon !== null)
+					{
+						if (savedMon.seen)
+							newMon.classList.add('seen');
+						if (savedMon.caught)
+							newMon.classList.add('caught');
+					}
+					else
+					{
+						updateSaveData(line, false, false);
+					}
+
+					newMon.innerHTML = `<img src="${url}" alt="${line}" />`;
+					newMon.dataset.name = line;
+					newMon.addEventListener("click", clickMon);
+					newMon.addEventListener("keydown", (e) => {
+						if (e.key === "Enter" || e.key === " ") clickMon({ currentTarget: newMon });
+					});
+					newBox.appendChild(newMon);
+					i++;
+
+					// Each box can only hold 30 Pokemon, so after the 30th one we need to start a new box
+					if (i >= 30)
+					{
+						boxesGrid.appendChild(newBox);
+						i = 0;
+						j++;
+						newBox = document.createElement('div');
+						newBox.classList.add('box');
+					}
 				}
 			})
 
 			boxesGrid.appendChild(newBox);
 			updateProgressBar();
-			loadCheckboxes();
 		})
-
-	document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-		checkbox.addEventListener('click', saveCheckboxes);
-	})
-})
+}
 
 function updateProgressBar()
 {
 	let seen = 0;
 	let caught = 0;
 	let total = 0;
-	const boxesGrid = document.querySelector('#boxes');
 
 	for (let pkmnBox of boxesGrid.children)
 	{
@@ -266,7 +276,6 @@ function loadCheckboxes()
 
 function saveCheckboxes()
 {
-	console.log('Saving checked boxes...')
 	checkedBoxes = [];
 	for (let i = 0; i < gameToggles.children.length; i++)
 	{
@@ -289,7 +298,65 @@ function saveCheckboxes()
 				checkedBoxes.push(check.id);
 		}
 	}
-	console.log('Checked boxes saved! New list:')
-	console.log(checkedBoxes);
 	localStorage.setItem("checkedBoxes", JSON.stringify({checkedBoxes: checkedBoxes}));
+	refreshBoxes();
+}
+
+function checkForm(species)
+{
+	// Automatically return true if this is not a form of any Pokemon
+	if (!species.includes('-'))
+		return true;
+
+	// Regional forms (has to ignore Pikachu because of the hat forms' naming conventions matching regional forms)
+	if (!species.includes('pikachu'))
+		if (species.includes('-alola') || species.includes('-galar') || species.includes('-hisui'))
+			return document.getElementById('regionalToggle').checked;
+
+	// Gender variants (w/ failsafe for female megas)
+	if (species.endsWith('-f')) {
+		if (species.includes('-mega'))
+			return document.getElementById('megaToggle').checked &&
+				document.getElementById('genderToggle').checked;
+
+		return document.getElementById('genderToggle').checked;
+	}
+
+	// Mega Evolutions
+	if (species.includes('-mega'))
+		return document.getElementById('megaToggle').checked;
+
+	// Gigantamax
+	if (species.includes('-gmax'))
+		return document.getElementById('gmaxToggle').checked;
+	// Hat/Cosplay Pikachus (uses if-else to avoid gmax Pikachu being affected)
+	else if (species.includes('pikachu') && species !== 'pikachu-f')
+		return document.getElementById('pikaFormToggle').checked;
+
+	// All other species-specific forms
+	if (species.includes('castform'))
+		return document.getElementById('castformToggle').checked;
+	if (species.includes('furfrou'))
+		return document.getElementById('furfrouToggle').checked;
+	if (species.includes('vivillon'))
+		return document.getElementById('vivillonToggle').checked;
+	if (species.includes('rotom'))
+		return document.getElementById('rotomToggle').checked;
+	if (species.includes('terapagos'))
+		return document.getElementById('terapagosToggle').checked;
+	if (species.includes('unown'))
+		return document.getElementById('unownToggle').checked;
+
+	// Fusions
+	if (species.includes('kyurem') || species.includes('necrozma') || species.includes('calyrex'))
+		return document.getElementById('fusionToggle').checked;
+
+	// Item-based transformations (Arceus, Silvally, primal and origin forms, Zacian/Zamazenta, and Ogerpon)
+	if (species.includes('-primal') || species.includes('-origin') ||
+		species.includes('arceus') || species.includes('silvally') ||
+		species.includes('-crowned') || species.includes('ogerpon'))
+		return document.getElementById('itemFormToggle').checked;
+
+	// Automatically returns true for any forms not tied to the toggles
+	return true;
 }
