@@ -562,6 +562,7 @@ Duskull
 Dusclops
 Tropius
 Chimecho
+Chimecho-mega
 Absol
 Absol-mega
 Wynaut
@@ -1526,6 +1527,7 @@ IronThorns
 Frigibax
 Arctibax
 Baxcalibur
+Baxcalibur-mega
 Gimmighoul
 Gimmighoul-roaming
 Gholdengo
