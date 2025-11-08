@@ -23,8 +23,13 @@
 		<li>Yellow background - This is a Pokemon you've marked as "seen". I use this to track Pokemon I've acquired in a game but have not yet transfered to HOME.</li>
 		<li>Green background - This is a Pokemon you've marked as "caught", meaning it's been stored in HOME. Good job!</li>
 	</ul>
-	<label id="progressLabel" for="dexProgress">Pokedex Completion Progress:</label>
-	<meter id="dexProgress" min="0" max="1025" value="0"></meter>
+	<div id="progressLabel">Pokedex Completion Progress:</div>
+	<div id="dexProgress">
+		<div id="dexProgress-caught"></div>
+		<div id="dexProgress-seen"></div>
+	</div>
+<!--	<label id="progressLabel" for="dexProgress">Pokedex Completion Progress:</label>-->
+<!--	<meter id="dexProgress" min="0" max="1025" value="0"></meter>-->
 	<div id="toggles">
 		<div id="gameToggles">
 			<h3 class="toggleHead">Available Games:</h3>

@@ -237,11 +237,16 @@ function updateProgressBar()
 		}
 	}
 
-	const progressBar = document.getElementById('dexProgress');
-	progressBar.max = total;
-	progressBar.value = seen + caught;
-	let percent = (progressBar.value / progressBar.max) * 100;
-	document.getElementById('progressLabel').innerHTML = `Pokedex Completion Progress: ${progressBar.value} / ${progressBar.max} (${percent.toFixed(2)}%)`
+	let caughtPercent = (caught / total) * 100;
+	document.getElementById('dexProgress-caught').style.width = `${caughtPercent}%`;
+	document.getElementById('dexProgress-caught').innerHTML = `${caught}`;
+
+	let seenPercent = (seen / total) * 100;
+	document.getElementById('dexProgress-seen').style.width = `${seenPercent}%`;
+	document.getElementById('dexProgress-seen').innerHTML = `${seen}`;
+
+	let totalPercent = ((seen + caught) / total) * 100;
+	document.getElementById('progressLabel').innerHTML = `Pokedex Completion Progress: ${seen + caught} / ${total} (${totalPercent.toFixed(2)}%)`
 }
 
 function clickMon(event)

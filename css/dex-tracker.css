@@ -1,9 +1,29 @@
-#progressLabel {
-	padding-right: 20px;
+#dexProgress, #dexProgress-caught, #dexProgress-seen {
+	height: 15px;
+	display: flex;
+	align-items: center;
+}
+
+#dexProgress-caught, #dexProgress-seen {
+	justify-content: center;
 }
 
 #dexProgress {
-	width: 500px;
+	width: 1025px;
+	border-radius: 10px;
+	background-color: #D9D9D9;
+}
+
+#dexProgress-seen {
+	background-color: #FFF2CC;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+
+#dexProgress-caught {
+	background-color: #B6D7A8;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
 }
 
 #toggles {
