@@ -276,6 +276,8 @@ function updateSaveData(name, seen, caught)
 function loadCheckboxes()
 {
 	let storedCheckBoxes = localStorage.getItem("checkedBoxes");
+	if (storedCheckBoxes == null)
+		return;
 	checkedBoxes = JSON.parse(storedCheckBoxes).checkedBoxes;
 	for (let i = 0; i < gameToggles.children.length; i++)
 	{
