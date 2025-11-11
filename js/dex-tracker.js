@@ -182,7 +182,7 @@ function refreshBoxes() {
 				// The Pokemon won't be added if checkForm determines that it is disabled
 				if (checkForm(line))
 				{
-					let newMon = document.createElement('div');
+					let newMon = document.createElement('button');
 					newMon.classList.add('pkmn');
 
 					// Update the per-species static formatting
@@ -215,9 +215,6 @@ function refreshBoxes() {
 					newMon.innerHTML = `<img src="${url}" alt="${line}" />`;
 					newMon.dataset.name = line;
 					newMon.addEventListener("click", clickMon);
-					newMon.addEventListener("keydown", (e) => {
-						if (e.key === "Enter" || e.key === " ") clickMon({ currentTarget: newMon });
-					});
 					newBox.appendChild(newMon);
 					i++;
 
