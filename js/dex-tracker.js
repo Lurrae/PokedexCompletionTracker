@@ -30,6 +30,10 @@ const cantStoreDirectly = [
 	'meloetta-pirouette',
 	'darmanitan-zen',
 	'darmanitan-galarzen',
+	'genesect-shock',
+	'genesect-burn',
+	'genesect-chill',
+	'genesect-douse',
 	'greninja-ash',
 	'aegislash-blade',
 	'zygarde-complete'
