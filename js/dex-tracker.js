@@ -121,6 +121,42 @@ document.addEventListener('DOMContentLoaded', function() {
 	document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
 		checkbox.addEventListener('click', saveCheckboxes);
 	})
+
+	document.querySelectorAll('.toggleCollapse').forEach(collapseBtn => {
+		collapseBtn.addEventListener('click', function() {
+			collapseBtn.classList.toggle('active');
+			let togglesToCollapse = gameToggles;
+			if (collapseBtn.id === 'formToggleCollapse')
+				togglesToCollapse = formToggles;
+
+			if (collapseBtn.classList.contains('active')) {
+				collapseBtn.innerHTML = 'v';
+				togglesToCollapse.style.width = (togglesToCollapse.getBoundingClientRect().width - 30) + 'px';
+				togglesToCollapse.style.height = 'fit-content';
+				for (let i = 0; i < togglesToCollapse.children.length; i++)
+				{
+					let toggle = togglesToCollapse.children[i];
+					if (i > 1)
+					{
+						toggle.style.display = "none";
+					}
+				}
+			}
+			else {
+				collapseBtn.innerHTML = '^';
+				togglesToCollapse.style.width = 'auto';
+				togglesToCollapse.style.height = 'auto';
+				for (let i = 0; i < togglesToCollapse.children.length; i++)
+				{
+					let toggle = togglesToCollapse.children[i];
+					if (i > 1)
+					{
+						toggle.style.display = "block";
+					}
+				}
+			}
+		})
+	})
 })
 
 function refreshBoxes() {
