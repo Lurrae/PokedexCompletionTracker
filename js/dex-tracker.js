@@ -377,24 +377,30 @@ function checkForm(species)
 	if (isDefaultForm(species))
 		return true;
 
-	// Zen forms
-	if (species.includes('zen'))
+	// Darmanitan's Zen forms
+	if (species.endsWith('zen'))
 		return document.getElementById('zenToggle').checked;
+
+	// Gender variants (w/ failsafe for female megas and regionals)
+	if (species.endsWith('-f')) {
+		if (species.includes('-mega')) {
+			return document.getElementById('megaToggle').checked &&
+				document.getElementById('genderToggle').checked;
+		}
+		if (species.includes('-alola') || species.includes('-galar') ||
+			species.includes('-hisui') || species.includes('-paldea')) {
+			return document.getElementById('regionalToggle').checked &&
+				document.getElementById('genderToggle').checked;
+		}
+
+		return document.getElementById('genderToggle').checked;
+	}
 
 	// Regional forms (has to ignore Pikachu because of the hat forms' naming conventions matching regional forms)
 	if (!species.includes('pikachu'))
 		if (species.includes('-alola') || species.includes('-galar') ||
 			species.includes('-hisui') || species.includes('-paldea'))
 			return document.getElementById('regionalToggle').checked;
-
-	// Gender variants (w/ failsafe for female megas)
-	if (species.endsWith('-f')) {
-		if (species.includes('-mega'))
-			return document.getElementById('megaToggle').checked &&
-				document.getElementById('genderToggle').checked;
-
-		return document.getElementById('genderToggle').checked;
-	}
 
 	// Mega Evolutions (w/ failsafe for Mega Floette and Mega Zygarde)
 	if (species.includes('-mega')) {
