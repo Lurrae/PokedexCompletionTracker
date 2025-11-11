@@ -109,6 +109,7 @@ div.toggleHead {
 	justify-content: center;
 	text-align: center;
 	background-color: white;
+	border: none;
 	border-radius: 10px;
 	transition: transform 0.2s;
 	font-size: 12px;
