@@ -241,11 +241,17 @@ function updateProgressBar()
 
 	let caughtPercent = (caught / total) * 100;
 	document.getElementById('dexProgress-caught').style.width = `${caughtPercent}%`;
-	document.getElementById('dexProgress-caught').innerHTML = `${caught}`;
+	if (caught > 0)
+		document.getElementById('dexProgress-caught').innerHTML = `${caught}`;
+	else
+		document.getElementById('dexProgress-caught').innerHTML = '';
 
 	let seenPercent = (seen / total) * 100;
 	document.getElementById('dexProgress-seen').style.width = `${seenPercent}%`;
-	document.getElementById('dexProgress-seen').innerHTML = `${seen}`;
+	if (seen > 0)
+		document.getElementById('dexProgress-seen').innerHTML = `${seen}`;
+	else
+		document.getElementById('dexProgress-seen').innerHTML = '';
 
 	let totalPercent = ((seen + caught) / total) * 100;
 	document.getElementById('progressLabel').innerHTML = `Pokedex Completion Progress: ${seen + caught} / ${total} (${totalPercent.toFixed(2)}%)`
