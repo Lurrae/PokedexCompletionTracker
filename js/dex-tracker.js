@@ -96,7 +96,6 @@ const notInAnySwitchGame = [
 	'deoxys-speed',
 	'victini',
 	'genesect',
-	'diancie',
 	'hoopa',
 	'hoopa-unbound',
 	'volcanion',
@@ -228,6 +227,9 @@ function updateProgressBar()
 	{
 		for (let pkmn of pkmnBox.children)
 		{
+			if (pkmn.innerHTML.includes("Box"))
+				continue;
+
 			total++;
 
 			if (pkmn.classList.contains('seen'))
@@ -336,6 +338,10 @@ function checkForm(species)
 	if (isDefaultForm(species))
 		return true;
 
+	// Zen forms
+	if (species.includes('zen'))
+		return document.getElementById('zenToggle').checked;
+
 	// Regional forms (has to ignore Pikachu because of the hat forms' naming conventions matching regional forms)
 	if (!species.includes('pikachu'))
 		if (species.includes('-alola') || species.includes('-galar') ||
@@ -401,14 +407,13 @@ function checkForm(species)
 		return document.getElementById('pumpkabooToggle').checked;
 	if (species.includes('minior'))
 		return document.getElementById('miniorToggle').checked;
-	if (species.includes('-antique') || species.includes('-artisan') || species.includes('-masterpiece'))
-		return document.getElementById('sinisteaToggle').checked;
+	if (species.includes('-antique') || species.includes('-artisan') || species.includes('-masterpiece') ||
+		species.includes('maushold') || species.includes('dudunsparce'))
+		return document.getElementById('rareFormToggle').checked;
 	if (species.includes('alcremie'))
 		return document.getElementById('alcremieToggle').checked;
 	if (species.includes('urshifu'))
 		return document.getElementById('urshifuToggle').checked;
-	if (species.includes('maushold') || species.includes('dudunsparce'))
-		return document.getElementById('mausholdToggle').checked;
 	if (species.includes('gimmighoul'))
 		return document.getElementById('gimmighoulToggle').checked;
 	if (species.includes('terapagos'))
@@ -433,6 +438,10 @@ function checkForm(species)
 		return document.getElementById('ursalunaToggle').checked;
 	if (species.includes('tatsugiri'))
 		return document.getElementById('tatsuToggle').checked;
+	if (species.includes('basculin'))
+		return document.getElementById('basculinToggle').checked;
+	if (species.includes('toxtricity'))
+		return document.getElementById('toxtricityToggle').checked;
 
 	// Fusions
 	if (species.includes('kyurem') || species.includes('necrozma') || species.includes('calyrex')) {
