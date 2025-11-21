@@ -26,6 +26,16 @@
 	border-bottom-left-radius: 10px;
 }
 
+#importExportBtns {
+	display: flex;
+	gap: 40px;
+	margin-top: 20px;
+}
+
+#importFile {
+	display: none;
+}
+
 #toggles {
 	margin-top: 20px;
 	display: flex;

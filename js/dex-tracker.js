@@ -161,7 +161,39 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		})
 	})
+
+	document.getElementById('exportBtn').addEventListener('click', function() {
+		let json = {};
+		for (let storedElement in localStorage) {
+			json[storedElement] = localStorage[storedElement];
+		}
+		let file = new File([JSON.stringify(json)], "pokedex-tracker-data.json", {type: 'application/octet-stream'});
+		let url = URL.createObjectURL(file);
+		window.open(url);
+		URL.revokeObjectURL(url);
+	})
+
+	document.getElementById('importBtn').addEventListener('click', function() {
+		let importFile = document.getElementById('importFile');
+		importFile.click();
+	})
 })
+
+function importSaveData() {
+	let importFile = document.getElementById('importFile');
+	let url = URL.createObjectURL(importFile.files[0]);
+	fetch(url)
+		.then(res => res.json())
+		.then(data => {
+			for (let item in data) {
+				let itemJson = JSON.parse(data[item]);
+				if (itemJson instanceof Object) {
+					localStorage.setItem(item, data[item]);
+				}
+			}
+			refreshBoxes();
+		})
+}
 
 function refreshBoxes() {
 	fetch('data/species.txt')
@@ -192,8 +224,13 @@ function refreshBoxes() {
 					// Update the per-species static formatting
 					if (line.includes("-mega") || cantTransfer.includes(line))
 						newMon.classList.add('mega');
-					if (line.includes("gmax") || cantStoreDirectly.includes(line))
+					if (line.includes("gmax") || cantStoreDirectly.includes(line)) {
 						newMon.classList.add('gmax');
+						let tip = tryGetTooltip(line);
+						if (tip !== null) {
+							newMon.title = tip;
+						}
+					}
 					if (line === 'gimmighoul-roaming' || line === 'meltan' || line === 'melmetal')
 						newMon.classList.add('go-only');
 					// TODO: This needs to check what Pokemon are available in what games, which is gonna be painful...
@@ -252,6 +289,35 @@ function refreshBoxes() {
 			newBox.prepend(newHeader);
 			updateProgressBar();
 		})
+}
+
+const SPECIES_TOOLTIPS = {
+	'castform-sunny': "Can be differentiated with the move Sunny Day or any damaging Fire-type move",
+	'castform-rainy': "Can be differentiated with the move Rain Dance or any damaging Water-type move",
+	'castform-snowy': "Can be differentiated with the move Blizzard/Snowscape or any damaging Ice-type move",
+	'meloetta-pirouette': "Can be differentiated with the move Relic Song",
+	'darmanitan-zen': "Can be differentiated with the Zen Mode ability",
+	'darmanitan-galarzen': "Can be differentiated with the Zen Mode ability",
+	'genesect-shock': "Can be differentiated with any damaging Electric-type move",
+	'genesect-burn': "Can be differentiated with any damaging Fire-type move",
+	'genesect-chill': "Can be differentiated with any damaging Ice-type move",
+	'genesect-douse': "Can be differentiated with any damaging Water-type move",
+	'greninja-ash': "Can be differentiated with the Battle Bond ability",
+	'aegislash-blade': "Can be differentiated with the lack of the move King's Shield",
+	'zygarde-complete': "Can be differentiated with the Power Construct ability"
+}
+
+function tryGetTooltip(species)
+{
+	if (species.includes("gmax")) {
+		return "Can be differentiated with the Gigantamax Factor";
+	}
+
+	if (SPECIES_TOOLTIPS.hasOwnProperty(species)) {
+		return SPECIES_TOOLTIPS[species];
+	}
+
+	return null;
 }
 
 function updateProgressBar()
@@ -386,7 +452,7 @@ function checkForm(species)
 		return document.getElementById('zenToggle').checked;
 
 	// Gender variants (w/ failsafe for female megas and regionals)
-	if (species.endsWith('-f')) {
+	if (species.endsWith('-f') && !species.includes('unown')) {
 		if (species.includes('-mega')) {
 			return document.getElementById('megaToggle').checked &&
 				document.getElementById('genderToggle').checked;
