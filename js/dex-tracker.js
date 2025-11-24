@@ -1,8 +1,17 @@
 'use strict';
 
 const cantTransfer = [
+	'aerodactyl-mega',
+	'mewtwo-megax',
+	'mewtwo-megay',
+	'sceptile-mega',
+	'blaziken-mega',
+	'swampert-mega',
+	'latios-mega',
+	'latias-mega',
 	'kyurem-black',
 	'kyurem-white',
+	'zygarde-mega',
 	'terapagos-terastal'
 ];
 const notInMyGames = [
@@ -191,7 +200,7 @@ function refreshBoxes() {
 					// Update the per-species static formatting
 					if (cantTransfer.includes(line))
 						newMon.classList.add('no-transfer');
-					if (line.includes("-mega") || line.includes("gmax") || SPECIES_TOOLTIPS.hasOwnProperty(line)) {
+					else if (line.includes("-mega") || line.includes("gmax") || SPECIES_TOOLTIPS.hasOwnProperty(line)) {
 						newMon.classList.add('has-diff-factor');
 						let tip = tryGetTooltip(line);
 						if (tip !== null) {
@@ -264,6 +273,7 @@ const SPECIES_TOOLTIPS = {
 	'castform-snowy': "Can be differentiated with the move Blizzard/Snowscape or any damaging Ice-type move",
 	'groudon-primal': "Can be differentiated with the move Precipice Blades",
 	'kyogre-primal': "Can be differentiated with the move Origin Pulse",
+	'rayquaza-mega': "Can be differentiated with the move Dragon Ascent",
 	'cherrim-sunshine': "Can be differentiated with the move Sunny Day",
 	'dialga-origin': "Can be differentiated with the move Roar of Time",
 	'palkia-origin': "Can be differentiated with the move Spacial Rend",
@@ -294,16 +304,18 @@ const SPECIES_TOOLTIPS = {
 
 function tryGetTooltip(species)
 {
+	// Prioritize unique tooltips over the general ones for megas/gmax forms
+	// This currently only matters for Mega Rayquaza, as it's the only one with a unique differentiating factor
+	if (SPECIES_TOOLTIPS.hasOwnProperty(species)) {
+		return SPECIES_TOOLTIPS[species];
+	}
+
 	if (species.includes("-mega")) {
 		return "Can be differentiated by being an Alpha Pokemon transferred in from Legends Z-A";
 	}
 
 	if (species.includes("gmax")) {
 		return "Can be differentiated with the Gigantamax Factor";
-	}
-
-	if (SPECIES_TOOLTIPS.hasOwnProperty(species)) {
-		return SPECIES_TOOLTIPS[species];
 	}
 
 	return null;
