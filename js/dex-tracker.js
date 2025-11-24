@@ -10,6 +10,7 @@ const cantTransfer = [
 	'kyurem-black',
 	'kyurem-white',
 	'zygarde-mega',
+	'zeraora-mega',
 	'terapagos-terastal'
 ];
 const notInMyGames = [
