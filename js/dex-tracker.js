@@ -197,14 +197,12 @@ function refreshBoxes() {
 					newMon.classList.add('pkmn');
 
 					// Update the per-species static formatting
+					let tip = tryGetTooltip(line);
 					if (cantTransfer.includes(line))
 						newMon.classList.add('no-transfer');
-					else if (line.includes("-mega") || line.includes("gmax") || SPECIES_TOOLTIPS.hasOwnProperty(line)) {
+					else if (tip !== null) {
 						newMon.classList.add('has-diff-factor');
-						let tip = tryGetTooltip(line);
-						if (tip !== null) {
-							newMon.title = tip;
-						}
+						newMon.title = tip;
 					}
 					if (line === 'gimmighoul-roaming' || line === 'meltan' || line === 'melmetal')
 						newMon.classList.add('go-only');
@@ -316,6 +314,10 @@ function tryGetTooltip(species)
 
 	if (species.includes("-mega")) {
 		return "Can be differentiated by being an Alpha Pokemon transferred in from Legends Z-A";
+	}
+
+	if (species.includes("arceus-") || species.includes("silvally-")) {
+		return "Can be differentiated with any damaging move of the corresponding type";
 	}
 
 	if (species.includes("gmax")) {
