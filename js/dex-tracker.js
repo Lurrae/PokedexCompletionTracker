@@ -1,42 +1,9 @@
 'use strict';
 
 const cantTransfer = [
-	'groudon-primal',
-	'kyogre-primal',
-	'cherrim-sunshine',
-	'dialga-origin',
-	'palkia-origin',
-	'giratina-origin',
 	'kyurem-black',
 	'kyurem-white',
-	'keldeo-resolute',
-	'necrozma-dawnwings',
-	'necrozma-duskmane',
-	'necrozma-ultra',
-	'zacian-crowned',
-	'zamazenta-crowned',
-	'calyrex-shadow',
-	'calyrex-ice',
-	'ogerpon-wellspring',
-	'ogerpon-hearthflame',
-	'ogerpon-cornerstone',
-	'terapagos-terastal',
-	'terapagos-stellar'
-];
-const cantStoreDirectly = [
-	'castform-sunny',
-	'castform-rainy',
-	'castform-snowy',
-	'meloetta-pirouette',
-	'darmanitan-zen',
-	'darmanitan-galarzen',
-	'genesect-shock',
-	'genesect-burn',
-	'genesect-chill',
-	'genesect-douse',
-	'greninja-ash',
-	'aegislash-blade',
-	'zygarde-complete'
+	'terapagos-terastal'
 ];
 const notInMyGames = [
 	'articuno-galar',
@@ -222,10 +189,10 @@ function refreshBoxes() {
 					newMon.classList.add('pkmn');
 
 					// Update the per-species static formatting
-					if (line.includes("-mega") || cantTransfer.includes(line))
-						newMon.classList.add('mega');
-					if (line.includes("gmax") || cantStoreDirectly.includes(line)) {
-						newMon.classList.add('gmax');
+					if (cantTransfer.includes(line))
+						newMon.classList.add('no-transfer');
+					if (line.includes("-mega") || line.includes("gmax") || SPECIES_TOOLTIPS.hasOwnProperty(line)) {
+						newMon.classList.add('has-diff-factor');
 						let tip = tryGetTooltip(line);
 						if (tip !== null) {
 							newMon.title = tip;
@@ -295,20 +262,42 @@ const SPECIES_TOOLTIPS = {
 	'castform-sunny': "Can be differentiated with the move Sunny Day or any damaging Fire-type move",
 	'castform-rainy': "Can be differentiated with the move Rain Dance or any damaging Water-type move",
 	'castform-snowy': "Can be differentiated with the move Blizzard/Snowscape or any damaging Ice-type move",
-	'meloetta-pirouette': "Can be differentiated with the move Relic Song",
+	'groudon-primal': "Can be differentiated with the move Precipice Blades",
+	'kyogre-primal': "Can be differentiated with the move Origin Pulse",
+	'cherrim-sunshine': "Can be differentiated with the move Sunny Day",
+	'dialga-origin': "Can be differentiated with the move Roar of Time",
+	'palkia-origin': "Can be differentiated with the move Spacial Rend",
+	'giratina-origin': "Can be differentiated with the move Shadow Force",
 	'darmanitan-zen': "Can be differentiated with the Zen Mode ability",
 	'darmanitan-galarzen': "Can be differentiated with the Zen Mode ability",
+	'meloetta-pirouette': "Can be differentiated with the move Relic Song",
+	'keldeo-resolute': "Can be differentiated with the move Secret Sword",
 	'genesect-shock': "Can be differentiated with any damaging Electric-type move",
 	'genesect-burn': "Can be differentiated with any damaging Fire-type move",
 	'genesect-chill': "Can be differentiated with any damaging Ice-type move",
 	'genesect-douse': "Can be differentiated with any damaging Water-type move",
 	'greninja-ash': "Can be differentiated with the Battle Bond ability",
 	'aegislash-blade': "Can be differentiated with the lack of the move King's Shield",
-	'zygarde-complete': "Can be differentiated with the Power Construct ability"
+	'zygarde-complete': "Can be differentiated with the Power Construct ability",
+	'necrozma-dawnwings': "Can be differentiated with any damaging Ghost-type move",
+	'necrozma-duskmane': "Can be differentiated with any damaging Steel-type move",
+	'necrozma-ultra': "Can be differentiated with any damaging Dragon-type move",
+	'zacian-crowned': "Can be differentiated with the move Iron Head",
+	'zamazenta-crowned': "Can be differentiated with the move Iron Head",
+	'calyrex-shadow': "Can be differentiated with any damaging Ghost-type move",
+	'calyrex-ice': "Can be differentiated with any damaging Ice-type move",
+	'ogerpon-wellspring': "Can be differentiated with any damaging Water-type move",
+	'ogerpon-hearthflame': "Can be differentiated with any damaging Fire-type move",
+	'ogerpon-cornerstone': "Can be differentiated with any damaging Rock-type move",
+	'terapagos-stellar': "Can be differentiated with the move Tera Starstorm"
 }
 
 function tryGetTooltip(species)
 {
+	if (species.includes("-mega")) {
+		return "Can be differentiated by being an Alpha Pokemon transferred in from Legends Z-A";
+	}
+
 	if (species.includes("gmax")) {
 		return "Can be differentiated with the Gigantamax Factor";
 	}
