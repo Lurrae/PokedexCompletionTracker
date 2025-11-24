@@ -1,0 +1,28 @@
+# Lurrae's Living Dex Completion Tracker
+This is the source code for a website that displays Pokemon sprites in numerous 30-slot boxes similar to those in Pokemon HOME, and the sprites can be clicked to mark them as "seen" or "caught", serving as a sort of checklist for a living dex!\
+(For those unfamiliar, a living dex basically boils down to "catch one of every species of Pokemon and store them in Pokemon HOME")\
+The website can be accessed through my [Github Pages](https://lurrae.github.io/PokedexCompletionTracker/)
+
+# Usage
+Instructions on how to use the Living Dex Completion Tracker are included on the website itself, but I'll also include a brief summary here:
+* Clicking on a Pokemon's sprite within a box will mark it as "seen" (yellow background), then clicking on it again will mark it as "caught" (green background). Clicking on the Pokemon a third time will reset it to the default state. The difference between the states is entirely up to you, though I typically use "seen" to denote Pokemon I have obtained in a game but haven't transferred to HOME yet, and "caught" for ones that are presently stored in HOME
+	* Note that you can also use the tab and spacebar/enter keys on your keyboard to select Pokemon if you prefer!
+* At the top of the page are numerous checkboxes that allow you to enable or disable specific form variants of Pokemon. For example, enabling regional forms will add things like Alolan Rattata, Galarian Stunfisk, or Hisuian Decidueye to the collection of Pokemon displayed in the boxes. Enabling every form will allow you to create what I refer to as a "true living forms dex"- a living dex where you have to obtain every form of every Pokemon, including things like gender variants, the 18 types of Arceus and Silvally, every Minior color, etc.
+* Alongside the form checkboxes are a collection of checkboxes to specify what games you own. These have no function currently, but I plan to add a feature where any Pokemon not available in the games you own (or which can only be obtained through online functionality) will be given an orange background; at the moment, the orange backgrounds are applied to a hard-coded list of Pokemon rather than actually updating dynamically
+	* There are also buttons to collapse the two sets of checkboxes (though at the moment they don't retain their collapsed state on page reload. I hope to fix that when I have time!)
+* Some Pokemon and forms have an orange, red, or gray background, or a yellow or red outline. These are explained in greater detail on the website proper, but in summary:
+	* Orange background = not available in any owned game
+ 		* As mentioned earlier, currently the list of Pokemon which are given an orange background is hard-coded
+	* Red background = not available in any Switch-era game
+		* The reason I settled on only checking Switch-era games is because older games require access to Pokemon Bank (and PokeTransporter for DS-era games) in order to send a Pokemon from those games to Pokemon HOME. As such, a newcomer to the franchise wanting to start a Living Dex likely won't have access to those tools, making certain Pokemon like Deoxys or Magearna unavailable to them
+  		* As another side note, Original Color Magearna does not make Magearna count as "available in a Switch-era game" because it requires all Pokemon up to Eternatus in the dex to be obtained, which requires not only Magearna itself, but also numerous other Pokemon that aren't available on the Switch, like Deoxys (which had an event in S/V but it ended on 5/31/2025, making Deoxys unavailable to anyone who missed that distribution period, and outside of that it was last seen in OR/AS)
+	* Gray background = only available in Pokemon GO (has to be truly GO-exclusive, like Meltan/Melmetal and Roaming Gimmighoul)
+	* Yellow outline = form that can't be stored directly but has a differentiating factor
+		* Hovering over any Pokemon with a yellow outline will explain what its differentiating factor is- whether that be something like the Gigantamax Factor, a unique move or Ability, etc. Some of the factors I've chosen are admittedly a little bit arbitrary, but my goal is to provide as many forms with a differentiating factor as I can! (even if that means making some... Odd decisions, like making Alpha versions of a species able to count as that species' Mega-Evolved form)
+	* Red outline = form that can't be sent to HOME and has no reasonable differentiating factor that I could come up with
+* Buttons to import and export completion progress are also included near the top of the page. Pressing the "export" button will generate a json file that stores the states of every Pokemon on the website, and pressing the "import" button will prompt you to submit a json file from which the website will attempt to load all of the stored states, which is primarily useful for either saving a backup of your completion progress or for moving it across devices or browsers, as the data is otherwise only saved to local storage
+
+# Credits
+All of the code for this website was written by myself (Lurrae), though any contributions are welcome!\
+The Pokemon sprites displayed on the website are taken from Pokemon Showdown's collection of gen 5-styled sprites, with Pokemon from gens 1-5 (#0001-#0649) using their original sprites made by Game Freak\
+Pokemon is, of course, the intellectual property of Game Freak/The Pokemon Company. I'm not associated with either company and am simply creating this website for fun; no copyright infringement is intended
