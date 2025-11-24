@@ -1238,6 +1238,7 @@ Naganadel
 Stakataka
 Blacephalon
 Zeraora
+Zeraora-mega
 Meltan
 Melmetal
 Melmetal-gmax

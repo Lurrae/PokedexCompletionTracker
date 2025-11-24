@@ -2,8 +2,6 @@
 
 const cantTransfer = [
 	'aerodactyl-mega',
-	'mewtwo-megax',
-	'mewtwo-megay',
 	'sceptile-mega',
 	'blaziken-mega',
 	'swampert-mega',
@@ -268,6 +266,11 @@ function refreshBoxes() {
 }
 
 const SPECIES_TOOLTIPS = {
+	'charizard-megax': "Can be differentiated by being an Alpha Pokemon transferred in from Legends Z-A with any damaging Dragon-type move",
+	'raichu-megax': "Can be differentiated by being an Alpha Pokemon transferred in from Legends Z-A with any physical Electric-type move",
+	'raichu-megay': "Can be differentiated by being an Alpha Pokemon transferred in from Legends Z-A with any special Electric-type move",
+	'mewtwo-megax': "Can be differentiated with any damaging Fighting-type move",
+	'mewtwo-megay': "Can be differentiated with the move Agility",
 	'castform-sunny': "Can be differentiated with the move Sunny Day or any damaging Fire-type move",
 	'castform-rainy': "Can be differentiated with the move Rain Dance or any damaging Water-type move",
 	'castform-snowy': "Can be differentiated with the move Blizzard/Snowscape or any damaging Ice-type move",
@@ -442,6 +445,42 @@ function saveCheckboxes()
 	refreshBoxes();
 }
 
+const ZA_MEGAS = [
+	"clefable-mega",
+	"victreebel-mega",
+	"starmie-mega",
+	"dragonite-mega",
+	"meganium-mega",
+	"feraligatr-mega",
+	"skarmory-mega",
+	"froslass-mega",
+	"emboar-mega",
+	"excadrill-mega",
+	"scolipede-mega",
+	"scrafty-mega",
+	"eelektross-mega",
+	"chandelure-mega",
+	"chesnaught-mega",
+	"delphox-mega",
+	"greninja-mega",
+	"pyroar-mega",
+	"floette-mega",
+	"malamar-mega",
+	"barbaracle-mega",
+	"dragalge-mega",
+	"hawlucha-mega",
+	"zygarde-mega",
+	"drampa-mega",
+	"falinks-mega"
+];
+const MEGA_DIM_MEGAS = [
+	"raichu-megax",
+	"raichu-megay",
+	"chimecho-mega",
+	"zeraora-mega",
+	"baxcalibur-mega"
+];
+
 function checkForm(species)
 {
 	// Automatically return true if this is not a form of any Pokemon
@@ -477,10 +516,15 @@ function checkForm(species)
 	if (species.includes('-mega')) {
 		if (species === 'floette-mega')
 			return document.getElementById('azFloetteToggle').checked &&
-				document.getElementById('megaToggle').checked;
+				document.getElementById('zaMegasToggle').checked;
 		if (species === 'zygarde-mega')
 			return document.getElementById('zygardeToggle').checked &&
-				document.getElementById('megaToggle').checked;
+				document.getElementById('zaMegasToggle').checked;
+		// Any megas from Legends Z-A or Mega Dimension have their own checks
+		if (ZA_MEGAS.includes(species))
+			return document.getElementById('zaMegasToggle').checked;
+		if (MEGA_DIM_MEGAS.includes(species))
+			return document.getElementById('megaDimMegasToggle').checked;
 		return document.getElementById('megaToggle').checked;
 	}
 
