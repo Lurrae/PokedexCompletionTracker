@@ -268,8 +268,8 @@ const SPECIES_TOOLTIPS = {
 	'charizard-megax': "Can be differentiated by being an Alpha Pokemon transferred in from Legends Z-A with any damaging Dragon-type move",
 	'raichu-megax': "Can be differentiated by being an Alpha Pokemon transferred in from Legends Z-A with any physical Electric-type move",
 	'raichu-megay': "Can be differentiated by being an Alpha Pokemon transferred in from Legends Z-A with any special Electric-type move",
-	'mewtwo-megax': "Can be differentiated with any damaging Fighting-type move",
-	'mewtwo-megay': "Can be differentiated with the move Agility",
+	'mewtwo-megax': "Can be differentiated by being transferred in from Legends Z-A or LGPE with any damaging Fighting-type move",
+	'mewtwo-megay': "Can be differentiated by being transferred in from Legends Z-A or LGPE with the move Agility",
 	'castform-sunny': "Can be differentiated with the move Sunny Day or any damaging Fire-type move",
 	'castform-rainy': "Can be differentiated with the move Rain Dance or any damaging Water-type move",
 	'castform-snowy': "Can be differentiated with the move Blizzard/Snowscape or any damaging Ice-type move",
@@ -291,6 +291,7 @@ const SPECIES_TOOLTIPS = {
 	'greninja-ash': "Can be differentiated with the Battle Bond ability",
 	'aegislash-blade': "Can be differentiated with the lack of the move King's Shield",
 	'zygarde-complete': "Can be differentiated with the Power Construct ability",
+	'diancie-mega': "Can be differentiated by being transferred in from Legends Z-A with the move Diamond Storm",
 	'necrozma-dawnwings': "Can be differentiated with any damaging Ghost-type move",
 	'necrozma-duskmane': "Can be differentiated with any damaging Steel-type move",
 	'necrozma-ultra': "Can be differentiated with any damaging Dragon-type move",
@@ -542,10 +543,6 @@ function checkForm(species)
 	else if (species.includes('pikachu') && species !== 'pikachu-f')
 		return document.getElementById('pikaFormToggle').checked;
 
-	// Therian forms
-	if (species.includes('-therian'))
-		return document.getElementById('therianToggle').checked;
-
 	// All other species-specific forms
 	if (species.includes('castform'))
 		return document.getElementById('castformToggle').checked;
@@ -617,11 +614,17 @@ function checkForm(species)
 	if (species.includes('magearna') || species.includes('zarude'))
 		return document.getElementById('eventToggle').checked;
 
-	// Item-based transformations (primal and origin forms, Shaymin, Genesect, Hoopa, Zacian/Zamazenta, and Ogerpon)
-	if (species.includes('-primal') || species.includes('-origin') ||
-		species.includes('genesect') || species.includes('-crowned') ||
-		species.includes('ogerpon') || species.includes('shaymin') || species.includes('hoopa'))
-		return document.getElementById('itemFormToggle').checked;
+	// Primal and origin forms
+	if (species.includes('-primal') || species.includes('-origin'))
+		return document.getElementById('originToggle').checked;
+
+	// Transformations triggered by using an item (Shaymin, Hoopa, therian forms)
+	if (species.includes('shaymin') || species.includes('hoopa') || species.includes('-therian'))
+		return document.getElementById('usedItemFormToggle').checked;
+
+	// Transformations triggered by holding an item (Genesect, Zacian/Zamazenta, and Ogerpon)
+	if (species.includes('genesect') || species.includes('-crowned') || species.includes('ogerpon'))
+		return document.getElementById('heldItemFormToggle').checked;
 
 	// In-battle transformations (Cherrim, Meloette, Keldeo, Aegislash, Ash-Greninja)
 	if (species.includes('cherrim') || species.includes('meloetta') ||

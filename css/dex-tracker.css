@@ -49,6 +49,7 @@
 	background-color: cornflowerblue;
 	padding: 15px;
 	border-radius: 10px;
+	column-gap: 80px;
 }
 
 #gameToggles {
@@ -178,6 +179,10 @@ div.toggleHead {
 	}
 
 	#formToggles {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	#formToggles, #gameToggles {
+		column-gap: 10px;
 	}
 }
