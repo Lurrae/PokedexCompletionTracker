@@ -226,7 +226,14 @@ function refreshBoxes() {
 						updateSaveData(line, false, false);
 					}
 
-					newMon.innerHTML = `<img src="${url}" alt="${line}" />`;
+                    let silToggle = document.getElementById('silhouetteToggle');
+					if (!newMon.classList.contains('seen') && !newMon.classList.contains('caught') && silToggle.checked) {
+						newMon.innerHTML = `<img class="unseen" src="${url}" alt="${line}" />`;
+					}
+					else {
+						newMon.innerHTML = `<img src="${url}" alt="${line}" />`;
+					}
+
 					newMon.dataset.name = line;
 					newMon.addEventListener("click", clickMon);
 					newBox.appendChild(newMon);
@@ -377,14 +384,18 @@ function clickMon(event)
 		classList.toggle('caught');
 	else if (classList.contains('caught')) {
 		classList.remove('caught');
-		updateProgressBar();
-		updateSaveData(name, classList.contains('seen'), classList.contains('caught'));
+        updatePage(name, classList.contains('seen'), classList.contains('caught'));
 		return;
 	}
 
 	classList.toggle('seen');
-	updateProgressBar();
-	updateSaveData(name, classList.contains('seen'), classList.contains('caught'));
+    updatePage(name, classList.contains('seen'), classList.contains('caught'));
+}
+
+function updatePage(name, seen, caught) {
+    updateProgressBar();
+    updateSaveData(name, seen, caught);
+    refreshBoxes();
 }
 
 function updateSaveData(name, seen, caught)

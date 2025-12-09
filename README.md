@@ -21,6 +21,7 @@ Instructions on how to use the Living Dex Completion Tracker are included on the
 		* Hovering over any Pokemon with a yellow outline will explain what its differentiating factor is- whether that be something like the Gigantamax Factor, a unique move or Ability, etc. Some of the factors I've chosen are admittedly a little bit arbitrary, but my goal is to provide as many forms with a differentiating factor as I can! (even if that means making some... Odd decisions, like making Alpha versions of a species able to count as that species' Mega-Evolved form)
 	* Red outline = form that can't be sent to HOME and has no reasonable differentiating factor that I could come up with
 * Buttons to import and export completion progress are also included near the top of the page. Pressing the "export" button will generate a json file that stores the states of every Pokemon on the website, and pressing the "import" button will prompt you to submit a json file from which the website will attempt to load all of the stored states, which is primarily useful for either saving a backup of your completion progress or for moving it across devices or browsers, as the data is otherwise only saved to local storage
+* Directly below these buttons is an additional option to "hide unseen Pokemon". Checking this checkbox will cause all Pokemon not marked as seen or caught to display as a silhouette.
 
 # Credits
 All of the code for this website was written by myself (Lurrae), though any contributions are welcome!\
