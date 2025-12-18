@@ -35,8 +35,6 @@ const notInAnySwitchGame = [
 	'pikachu-partner',
 	'pikachu-world',
 	'celebi',
-	'latios-mega',
-	'latias-mega',
 	'deoxys',
 	'deoxys-attack',
 	'deoxys-defense',
