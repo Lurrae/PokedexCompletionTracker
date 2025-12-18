@@ -150,6 +150,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					if (species.includes(searchedSpecies)) {
 						let speciesGames = data[species];
 						outputField.innerHTML += `<strong>${species}:</strong><ul>`;
+						if (speciesGames.length === 0) {
+							outputField.innerHTML += `<li>This Pokemon is not obtainable in any Switch-era game</li>`;
+						}
 						for (let game of speciesGames) {
 							let text = "";
 							if (game.includes('*')) {
@@ -159,12 +162,12 @@ document.addEventListener('DOMContentLoaded', function() {
 								let games = game.split('+');
 
 								for (let i in games) {
-									text += games[i];
+									text += gameNames[games[i]];
 
-									if (i === 0) {
+									if (i === "0") {
 										text += " w/ save data from "
 									} else if (i < games.length - 1) {
-										text += ", "
+										text += "/"
 									}
 								}
 							}
