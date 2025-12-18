@@ -36,11 +36,46 @@
 	display: none;
 }
 
+#speciesSearch {
+	position: relative;
+	display: grid;
+	background-color: cornflowerblue;
+	padding: 15px;
+	border-radius: 10px;
+	row-gap: 15px;
+	width: fit-content;
+	margin-top: 20px;
+}
+
+#speciesSearchBar {
+	border-radius: 10px;
+	width: 250px;
+}
+
+#speciesSearchResults {
+	background-color: white;
+	border-radius: 10px;
+	width: 750px;
+	height: 200px;
+	overflow-y: scroll;
+	padding-left: 20px;
+}
+
+#speciesSearchResults > strong {
+	position: relative;
+	right: 15px;
+}
+
+#speciesSearchResults > ul {
+	margin-top: 10px;
+	margin-bottom: 0;
+}
+
 #toggles {
 	margin-top: 20px;
 	display: flex;
 	width: fit-content;
-	gap: 20px;
+	gap: 15px;
 }
 
 #formToggles, #gameToggles {
@@ -54,6 +89,7 @@
 
 #gameToggles {
 	grid-template-columns: repeat(2, 1fr);
+	max-width: 451px;
 }
 
 #formToggles {
@@ -73,6 +109,11 @@
 
 .toggleHead {
 	grid-column: 1 / -1;
+}
+
+#trade-div {
+	grid-column: 1 / -1;
+	margin-bottom: 10px;
 }
 
 div.toggleHead {

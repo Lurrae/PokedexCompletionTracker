@@ -17,12 +17,12 @@
 	</p>
 	<p>Here's a key for what all the background and outline colors mean:</p>
 	<ul>
-		<li>Dark red outline - These Pokemon cannot be stored in HOME in any meaningful capacity. This currently only includes a select few megas, Black/White Kyurem, and Terastal Terapagos, as most other similar forms can be taught moves of a relevant type to provide some distinction (or in the case of megas, can be encountered as Alphas; the few non-transferable megas are the ones that can't be caught as an Alpha).</li>
-		<li>Yellow outline - These Pokemon can't be stored in HOME directly, but there is some factor that can differentiate them. For example, Gigantamax Pokemon have the Gigantamax Factor, and Meloetta-Pirouette has Relic Song. The factor that differentiates them can be viewed by hovering over the Pokemon, and it will always be more specific than just "a Pokemon imported from a specific game".</li>
-		<li>Gray background - This is a Pokemon which, as of 11/23/2025, is and has always been only available in Pokemon GO. (So only Meltan, Melmetal, and Roaming Gimmighoul)</li>
-		<li>Red background - This is a Pokemon which, as of 11/23/2025, is completely unavailable in any Switch-era game, usually because it was a limited-time event that is no longer available (such as Zarude or Magearna)</li>
-		<li>Orange background - This is a Pokemon that either requires online features (such as Union Circles in S/V) or are only available in a game which you haven't marked as owning. (note: this has not been fully implemented yet and the Pokemon with orange backgrounds are currently hardcoded)</li>
-		<li>Yellow background - This is a Pokemon you've marked as "seen". I use this to track Pokemon I've acquired in a game but have not yet transfered to HOME.</li>
+		<li>Dark red outline - These Pokemon cannot be stored in HOME in any meaningful capacity. This currently only includes the hat/cosplay Pikachus, Black/White Kyurem, and Terastal Terapagos, as most other similar forms can be taught moves of a relevant type to provide some distinction (or in the case of megas, can be encountered as Alphas; the few non-transferable megas are the ones that can't be caught as an Alpha).</li>
+		<li>Yellow outline - These Pokemon can't be stored in HOME directly, but there is some factor that can differentiate them. For example, Gigantamax Pokemon have the Gigantamax Factor, and Meloetta-Pirouette has Relic Song. The factor that differentiates them can be viewed by hovering over the Pokemon, and it will always be more specific than just "a Pokemon imported from a specific game". That said, these factors are entirely made up by me, so you don't have to use them for your living forms dex if you'd rather just obtain extra copies of a Pokemon with no regard for differentiating them!</li>
+		<li>Gray background - This is a Pokemon which, as of 12/17/2025, is and has always been only available in Pokemon GO. (So far, only Meltan, Melmetal, and Roaming Gimmighoul fall into this category)</li>
+		<li>Red background - This is a Pokemon which, as of 12/17/2025, is completely unavailable in any Switch-era game, usually because it was a limited-time event that is no longer available (such as Zarude or Magearna). Note: I have not 100% completed the Hyperspace Dex in Mega Dimension yet, so if some Pokemon are marked unobtainable despite being added to MegaDim, I apologize!</li>
+		<li>Orange background - This is a Pokemon that either requires "external communications" (online features like trading or S/V's Union Circles) or aren't obtainable in any game you've marked as owning. You can set species that require online features but are otherwise available in one of your games to not show the orange background if you want!</li>
+		<li>Yellow background - This is a Pokemon you've marked as "seen". I use this to track Pokemon I've acquired in a game but have not yet transferred to HOME.</li>
 		<li>Green background - This is a Pokemon you've marked as "caught", meaning it's been stored in HOME. Good job!</li>
 	</ul>
 	<div id="progressLabel">Pokedex Completion Progress:</div>
@@ -39,88 +39,96 @@
         <input type="checkbox" id="silhouetteToggle">
         <label for="silhouetteToggle">Hide Unseen Pokemon</label>
     </div>
+	<div id="speciesSearch">
+		<input type="search" id="speciesSearchBar" placeholder="Target Pokemon name" />
+		<div id="speciesSearchResults"></div>
+	</div>
 	<div id="toggles">
 		<div id="gameToggles">
 			<button id="gameToggleCollapse" class="toggleCollapse">^</button>
 			<h3 class="toggleHead">Available Games:</h3>
+			<div class="toggle" id="trade-div">
+				<input type="checkbox" id="trade">
+				<label for="trade">Mark species that require external communication as available</label>
+			</div>
 			<div class="firstToggleHead">Gen 7:</div>
 			<div class="toggle">
-				<input type="checkbox" id="pikachuToggle">
-				<label for="pikachuToggle">Let's Go Pikachu</label>
+				<input type="checkbox" id="lg-pikachu">
+				<label for="lg-pikachu">Let's Go Pikachu</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="eeveeToggle">
-				<label for="eeveeToggle">Let's Go Eevee</label>
+				<input type="checkbox" id="lg-eevee">
+				<label for="lg-eevee">Let's Go Eevee</label>
 			</div>
 			<div class="toggleHead">Gen 8:</div>
 			<div class="toggle">
-				<input type="checkbox" id="swordToggle">
-				<label for="swordToggle">Sword (basegame)</label>
+				<input type="checkbox" id="sword">
+				<label for="sword">Sword (basegame)</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="shieldToggle">
-				<label for="shieldToggle">Shield (basegame)</label>
+				<input type="checkbox" id="shield">
+				<label for="shield">Shield (basegame)</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="swordCrownToggle">
-				<label for="swordCrownToggle">Crown Tundra (Sword)</label>
+				<input type="checkbox" id="sword-crown">
+				<label for="sword-crown">Crown Tundra (Sword)</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="shieldCrownToggle">
-				<label for="shieldCrownToggle">Crown Tundra (Shield)</label>
+				<input type="checkbox" id="shield-crown">
+				<label for="shield-crown">Crown Tundra (Shield)</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="swordArmorToggle">
-				<label for="swordArmorToggle">Isle of Armor (Sword)</label>
+				<input type="checkbox" id="sword-armor">
+				<label for="sword-armor">Isle of Armor (Sword)</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="shieldArmorToggle">
-				<label for="shieldArmorToggle">Isle of Armor (Shield)</label>
+				<input type="checkbox" id="shield-armor">
+				<label for="shield-armor">Isle of Armor (Shield)</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="bdToggle">
-				<label for="bdToggle">Brilliant Diamond</label>
+				<input type="checkbox" id="bdiamond">
+				<label for="bdiamond">Brilliant Diamond</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="spToggle">
-				<label for="spToggle">Shining Pearl</label>
+				<input type="checkbox" id="spearl">
+				<label for="spearl">Shining Pearl</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="arceusToggle">
-				<label for="arceusToggle">Legends Arceus</label>
+				<input type="checkbox" id="pla">
+				<label for="pla">Legends Arceus</label>
 			</div>
 			<div class="toggleHead">Gen 9:</div>
 			<div class="toggle">
-				<input type="checkbox" id="scarletToggle">
-				<label for="scarletToggle">Scarlet (basegame)</label>
+				<input type="checkbox" id="scarlet">
+				<label for="scarlet">Scarlet (basegame)</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="violetToggle">
-				<label for="violetToggle">Violet (basegame)</label>
+				<input type="checkbox" id="violet">
+				<label for="violet">Violet (basegame)</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="scarletTealToggle">
-				<label for="scarletTealToggle">The Teal Mask (Scarlet)</label>
+				<input type="checkbox" id="scarlet-mask">
+				<label for="scarlet-mask">The Teal Mask (Scarlet)</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="violetTealToggle">
-				<label for="violetTealToggle">The Teal Mask (Violet)</label>
+				<input type="checkbox" id="violet-mask">
+				<label for="violet-mask">The Teal Mask (Violet)</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="scarletIndigoToggle">
-				<label for="scarletIndigoToggle">The Indigo Disk (Scarlet)</label>
+				<input type="checkbox" id="scarlet-disc">
+				<label for="scarlet-disc">The Indigo Disc (Scarlet)</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="violetIndigoToggle">
-				<label for="violetIndigoToggle">The Indigo Disk (Violet)</label>
+				<input type="checkbox" id="violet-disc">
+				<label for="violet-disc">The Indigo Disc (Violet)</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="zaToggle">
-				<label for="zaToggle">Legends Z-A</label>
+				<input type="checkbox" id="za">
+				<label for="za">Legends Z-A</label>
 			</div>
 			<div class="toggle">
-				<input type="checkbox" id="megaDimToggle">
-				<label for="megaDimToggle">Mega Dimension</label>
+				<input type="checkbox" id="za-megadim">
+				<label for="za-megadim">Mega Dimension</label>
 			</div>
 		</div>
 		<div id="formToggles">

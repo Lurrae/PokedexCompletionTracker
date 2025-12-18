@@ -565,6 +565,7 @@ Chimecho
 Chimecho-mega
 Absol
 Absol-mega
+Absol-megaz
 Wynaut
 Snorunt
 Glalie
@@ -619,6 +620,7 @@ Staravia
 Staravia-f
 Staraptor
 Staraptor-f
+Staraptor-mega
 Bidoof
 Bidoof-f
 Bibarel
@@ -695,6 +697,7 @@ Munchlax
 Riolu
 Lucario
 Lucario-mega
+Lucario-megaz
 Hippopotas
 Hippopotas-f
 Hippowdon
@@ -754,6 +757,7 @@ Dialga-origin
 Palkia
 Palkia-origin
 Heatran
+Heatran-mega
 Regigigas
 Giratina
 Giratina-origin
@@ -761,6 +765,7 @@ Cresselia
 Phione
 Manaphy
 Darkrai
+Darkrai-mega
 Shaymin
 Shaymin-sky
 Arceus
@@ -940,6 +945,7 @@ Mienshao
 Druddigon
 Golett
 Golurk
+Golurk-mega
 Pawniard
 Bisharp
 Bouffalant
@@ -1056,6 +1062,7 @@ gen6/Furfrou-pharaoh
 Espurr
 Meowstic
 Meowstic-f
+Meowstic-mega
 Honedge
 Doublade
 Aegislash
@@ -1138,6 +1145,7 @@ Charjabug
 Vikavolt
 Crabrawler
 Crabominable
+Crabominable-mega
 Oricorio
 Oricorio-pompom
 Oricorio-pau
@@ -1171,6 +1179,7 @@ Oranguru
 Passimian
 Wimpod
 Golisopod
+Golisopod-mega
 Sandygast
 Palossand
 Pyukumuku
@@ -1479,6 +1488,7 @@ Toedscruel
 Klawf
 Capsakid
 Scovillain
+Scovillain-mega
 Rellor
 Rabsca
 Flittle
@@ -1497,6 +1507,7 @@ Cyclizar
 Orthworm
 Glimmet
 Glimmora
+Glimmora-mega
 Greavard
 Houndstone
 Flamigo
@@ -1507,6 +1518,9 @@ Dondozo
 Tatsugiri
 Tatsugiri-droopy
 Tatsugiri-stretchy
+Tatsugiri-mega
+Tatsugiri-droopymega
+Tatsugiri-stretchymega
 Annihilape
 Clodsire
 Farigiraf

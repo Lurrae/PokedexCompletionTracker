@@ -1,74 +1,42 @@
 'use strict';
 
 const cantTransfer = [
-	'aerodactyl-mega',
-	'sceptile-mega',
-	'blaziken-mega',
-	'swampert-mega',
-	'latios-mega',
-	'latias-mega',
+	'pikachu-cosplay',
+	'pikachu-rockstar',
+	'pikachu-belle',
+	'pikachu-popstar',
+	'pikachu-phd',
+	'pikachu-libre',
+	'pikachu-original',
+	'pikachu-hoenn',
+	'pikachu-sinnoh',
+	'pikachu-unova',
+	'pikachu-kalos',
+	'pikachu-alola',
+	'pikachu-partner',
+	'pikachu-world',
 	'kyurem-black',
 	'kyurem-white',
-	'zygarde-mega',
-	'zeraora-mega',
 	'terapagos-terastal'
 ];
-const notInMyGames = [
-	'articuno-galar',
-	'zapdos-galar',
-	'moltres-galar',
-	'huntail',
-	'gorebyss',
-	'lillipup',
-	'herdier',
-	'stoutland',
-	'darumaka',
-	'darmanitan',
-	'darmanitan-zen',
-	'tirtouga',
-	'carracosta',
-	'archen',
-	'archeops',
-	'druddigon',
-	'bouffalant',
-	'reshiram',
-	'kyurem',
-	'keldeo',
-	'tapukoko',
-	'tapulele',
-	'tapubulu',
-	'tapufini',
-	'cosmog',
-	'cosmoem',
-	'solgaleo',
-	'nihilego',
-	'buzzwole',
-	'pheromosa',
-	'xurkitree',
-	'celesteela',
-	'kartana',
-	'guzzlord',
-	'necrozma',
-	'poipole',
-	'naganadel',
-	'stakataka',
-	'blacephalon',
-	'rillaboom-gmax',
-	'cinderace-gmax',
-	'inteleon-gmax',
-	'urshifu',
-	'urshifu-gmax',
-	'urshifu-rapidstrike',
-	'urshifu-rapidstrikegmax',
-	'regieleki',
-	'regidrago',
-	'glastrier',
-	'calyrex',
-	'koraidon',
-	'ragingbolt',
-	'gougingfire'
-];
 const notInAnySwitchGame = [
+	'pikachu-cosplay',
+	'pikachu-rockstar',
+	'pikachu-belle',
+	'pikachu-popstar',
+	'pikachu-phd',
+	'pikachu-libre',
+	'pikachu-original',
+	'pikachu-hoenn',
+	'pikachu-sinnoh',
+	'pikachu-unova',
+	'pikachu-kalos',
+	'pikachu-alola',
+	'pikachu-partner',
+	'pikachu-world',
+	'celebi',
+	'latios-mega',
+	'latias-mega',
 	'deoxys',
 	'deoxys-attack',
 	'deoxys-defense',
@@ -85,6 +53,29 @@ const notInAnySwitchGame = [
 	'zarude',
 	'zarude-dada'
 ];
+const gameNames = {
+	"go": "Pokemon GO",
+	"home": "Pokemon HOME Gift/Event",
+	"lg-pikachu": "Let's Go Pikachu",
+	"lg-eevee": "Let's Go Eevee",
+	"sword": "Sword",
+	"shield": "Shield",
+	"sword-armor": "Isle of Armor (Sword)",
+	"shield-armor": "Isle of Armor (Shield)",
+	"sword-crown": "Crown Tundra (Sword)",
+	"shield-crown": "Crown Tundra (Shield)",
+	"bdiamond": "Brilliant Diamond",
+	"spearl": "Shining Pearl",
+	"pla": "Legends Arceus",
+	"scarlet": "Scarlet",
+	"violet": "Violet",
+	"scarlet-mask": "The Teal Mask (Scarlet)",
+	"violet-mask": "The Teal Mask (Violet)",
+	"scarlet-disc": "The Indigo Disc (Scarlet)",
+	"violet-disc": "The Indigo Disc (Violet)",
+	"za": "Legends Z-A",
+	"za-megadim": "Mega Dimension"
+};
 let checkedBoxes = [];
 let gameToggles;
 let formToggles;
@@ -96,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	formToggles = document.getElementById('formToggles');
 	loadCheckboxes();
 	refreshBoxes();
+	document.getElementById('speciesSearchBar').value = "";
 
 	document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
 		checkbox.addEventListener('click', saveCheckboxes);
@@ -137,6 +129,59 @@ document.addEventListener('DOMContentLoaded', function() {
 		})
 	})
 
+	document.getElementById('speciesSearchBar').addEventListener('input', function(e) {
+		let searchedSpecies = document.getElementById('speciesSearchBar').value;
+		searchedSpecies = searchedSpecies.toLowerCase().replace(" ", "-");
+		let outputField = document.getElementById('speciesSearchResults');
+		outputField.innerHTML = "";
+
+		if (searchedSpecies.length < 2)
+			return;
+
+		// Replace invalid - with nothing if needed
+		if (searchedSpecies.endsWith('-'))
+			searchedSpecies = searchedSpecies.replace('-', '');
+
+		// Female variants aren't listed since they're in all the same games as the male ones
+		if (searchedSpecies.endsWith('-f'))
+			searchedSpecies = searchedSpecies.replace('-f', '');
+
+		fetch("data/availability.json")
+			.then(response => response.json())
+			.then(data => {
+				for (let species in data) {
+					if (species.includes(searchedSpecies)) {
+						let speciesGames = data[species];
+						outputField.innerHTML += `<strong>${species}:</strong><ul>`;
+						for (let game of speciesGames) {
+							let text = "";
+							if (game.includes('*')) {
+								text = gameNames[game.replace('*', '')] + " w/ external communication";
+							}
+							if (game.includes('+')) {
+								let games = game.split('+');
+
+								for (let i in games) {
+									text += games[i];
+
+									if (i === 0) {
+										text += " w/ save data from "
+									} else if (i < games.length - 1) {
+										text += ", "
+									}
+								}
+							}
+							if (text === "") {
+								text = gameNames[game];
+							}
+							outputField.innerHTML += `<li>${text}</li>`;
+						}
+						outputField.innerHTML += "</ul><br/>";
+					}
+				}
+			})
+	})
+
 	document.getElementById('exportBtn').addEventListener('click', function() {
 		let json = {};
 		for (let storedElement in localStorage) {
@@ -174,101 +219,235 @@ function refreshBoxes() {
 	fetch('data/species.txt')
 		.then(res => res.text())
 		.then(speciesData => {
-			boxesGrid.innerHTML = '';
-			let newBox = document.createElement('div');
-			let speciesList = speciesData.toLowerCase().split('\n');
-			newBox.classList.add('box');
+			fetch('data/availability.json')
+				.then(res => res.json())
+				.then(speciesAvailData => {
+					boxesGrid.innerHTML = '';
+					let newBox = document.createElement('div');
+					let speciesList = speciesData.toLowerCase().split('\n');
+					newBox.classList.add('box');
 
-			let i = 0;
-			let j = 0;
-			let speciesNum = 0;
-			let newHeader = document.createElement('div');
-			newHeader.classList.add('box-header');
-			speciesList.forEach(line => {
-				line = line.trim();
-				let url = `http://play.pokemonshowdown.com/sprites/gen5/${line}.png`;
-				if (line.includes('/'))
-					url = `http://play.pokemonshowdown.com/sprites/${line}.png`;
-				// Check if this is a form of a Pokemon, and if so, make sure it's not disabled
-				// The Pokemon won't be added if checkForm determines that it is disabled
-				if (checkForm(line))
-				{
-					let newMon = document.createElement('button');
-					newMon.classList.add('pkmn');
+					let i = 0;
+					let j = 0;
+					let speciesNum = 0;
+					let newHeader = document.createElement('div');
+					newHeader.classList.add('box-header');
+					speciesList.forEach(line => {
+						line = line.trim();
+						let url = `http://play.pokemonshowdown.com/sprites/gen5/${line}.png`;
+						if (line.includes('/'))
+							url = `http://play.pokemonshowdown.com/sprites/${line}.png`;
+						// Check if this is a form of a Pokemon, and if so, make sure it's not disabled
+						// The Pokemon won't be added if checkForm determines that it is disabled
+						if (checkForm(line))
+						{
+							let newMon = document.createElement('button');
+							newMon.classList.add('pkmn');
 
-					// Update the per-species static formatting
-					let tip = tryGetTooltip(line);
-					if (cantTransfer.includes(line))
-						newMon.classList.add('no-transfer');
-					else if (tip !== null) {
-						newMon.classList.add('has-diff-factor');
-						newMon.title = tip;
-					}
-					if (line === 'gimmighoul-roaming' || line === 'meltan' || line === 'melmetal')
-						newMon.classList.add('go-only');
-					// TODO: This needs to check what Pokemon are available in what games, which is gonna be painful...
-					if (notInMyGames.includes(line))
-						newMon.classList.add('not-in-my-games');
-					if (notInAnySwitchGame.includes(line))
-						newMon.classList.add('not-available');
+							// Update the per-species static formatting
+							let tip = tryGetTooltip(line);
+							if (cantTransfer.includes(line))
+								newMon.classList.add('no-transfer');
+							else if (tip !== null) {
+								newMon.classList.add('has-diff-factor');
+								newMon.title = tip;
+							}
+							if (line === 'gimmighoul-roaming' || line === 'meltan' || line === 'melmetal')
+								newMon.classList.add('go-only');
+							let convertedForm = convertInvalidSpecies(speciesAvailData, line);
+							let isAvailable = false;
+							for (let game of speciesAvailData[convertedForm]) {
+								// Skip GO and HOME stuff since we don't have toggles for those
+								if (game === 'go' || game === 'home')
+									continue;
 
-					// Check if the species is in the save data, if not add it, if it is check whether it was seen or caught
-					let savedMon = JSON.parse(localStorage.getItem(line));
-					if (savedMon !== null)
-					{
-						if (savedMon.seen)
-							newMon.classList.add('seen');
-						if (savedMon.caught)
-							newMon.classList.add('caught');
-					}
-					else
-					{
-						updateSaveData(line, false, false);
-					}
+								// Skip games that require external communication (i.e, trade evos, Union Circle, and Snacksworth quests)
+								// if the toggle to allow trade evos is unchecked
+								if (game.includes('*') && !document.getElementById('trade').checked)
+									continue;
 
-                    let silToggle = document.getElementById('silhouetteToggle');
-					if (!newMon.classList.contains('seen') && !newMon.classList.contains('caught') && silToggle.checked) {
-						newMon.innerHTML = `<img class="unseen" src="${url}" alt="${line}" />`;
-					}
-					else {
-						newMon.innerHTML = `<img src="${url}" alt="${line}" />`;
-					}
+								game = game.replace('*', '');
 
-					newMon.dataset.name = line;
-					newMon.addEventListener("click", clickMon);
-					newBox.appendChild(newMon);
-					i++;
+								// Some games require save data from another- namely Gmax Pikachu/Eevee in Swo/Shi and Mew and Jirachi in BD/SP
+								// These are another special case that needs to be accounted for
+								if (game.includes('+')) {
+									let games = game.split('+');
+									let gameCount = 0;
 
-					// speciesNum only increments for things that aren't a form
-					// Usually, anything with a "-" in the name is a form, but some Pokemon (like Unown and Shellos)
-					// don't have any non-form variants, so we need to account for those
-					if (isDefaultForm(line))
-						speciesNum++;
+									for (let neededGame of games) {
+										if (document.getElementById(neededGame).checked)
+											gameCount++;
+									}
 
-					if (newHeader.innerHTML === "")
-						newHeader.innerHTML = `Box ${j+1} (#${String(speciesNum).padStart(4, "0")}-`;
+									if (gameCount >= games.length)
+										isAvailable = true;
 
-					// Each box can only hold 30 Pokemon, so after the 30th one we need to start a new box
-					if (i >= 30)
-					{
-						boxesGrid.appendChild(newBox);
-						i = 0;
-						j++;
-						newHeader.innerHTML += `#${String(speciesNum).padStart(4, "0")})`;
-						newBox.prepend(newHeader);
-						newHeader = document.createElement('div');
-						newHeader.classList.add('box-header');
-						newBox = document.createElement('div');
-						newBox.classList.add('box');
-					}
-				}
-			})
+									continue;
+								}
 
-			boxesGrid.appendChild(newBox);
-			newHeader.innerHTML += `#${String(speciesNum).padStart(4, "0")})`;
-			newBox.prepend(newHeader);
-			updateProgressBar();
+								// Since we went through all the special cases, now we can just check which game we were given
+								if (document.getElementById(game).checked)
+									isAvailable = true;
+							}
+							if (!isAvailable)
+								newMon.classList.add('not-in-my-games');
+							if (notInAnySwitchGame.includes(line))
+								newMon.classList.add('not-available');
+
+							// Check if the species is in the save data, if not add it, if it is check whether it was seen or caught
+							let savedMon = JSON.parse(localStorage.getItem(line));
+							if (savedMon !== null)
+							{
+								if (savedMon.seen)
+									newMon.classList.add('seen');
+								if (savedMon.caught)
+									newMon.classList.add('caught');
+							}
+							else
+							{
+								updateSaveData(line, false, false);
+							}
+
+							let silToggle = document.getElementById('silhouetteToggle');
+							if (!newMon.classList.contains('seen') && !newMon.classList.contains('caught') && silToggle.checked) {
+								newMon.innerHTML = `<img class="unseen" src="${url}" alt="${line}" />`;
+							}
+							else {
+								newMon.innerHTML = `<img src="${url}" alt="${line}" />`;
+							}
+
+							newMon.dataset.name = line;
+							newMon.addEventListener("click", clickMon);
+							newBox.appendChild(newMon);
+							i++;
+
+							// speciesNum only increments for things that aren't a form
+							// Usually, anything with a "-" in the name is a form, but some Pokemon (like Unown and Shellos)
+							// don't have any non-form variants, so we need to account for those
+							if (isDefaultForm(line))
+								speciesNum++;
+
+							if (newHeader.innerHTML === "")
+								newHeader.innerHTML = `Box ${j+1} (#${String(speciesNum).padStart(4, "0")}-`;
+
+							// Each box can only hold 30 Pokemon, so after the 30th one we need to start a new box
+							if (i >= 30)
+							{
+								boxesGrid.appendChild(newBox);
+								i = 0;
+								j++;
+								newHeader.innerHTML += `#${String(speciesNum).padStart(4, "0")})`;
+								newBox.prepend(newHeader);
+								newHeader = document.createElement('div');
+								newHeader.classList.add('box-header');
+								newBox = document.createElement('div');
+								newBox.classList.add('box');
+							}
+						}
+					})
+
+					boxesGrid.appendChild(newBox);
+					newHeader.innerHTML += `#${String(speciesNum).padStart(4, "0")})`;
+					newBox.prepend(newHeader);
+					updateProgressBar();
+				})
 		})
+}
+
+// This function is needed to make sure that each Pokemon species slot checks the corresponding species
+function convertInvalidSpecies(data, species) {
+	// Obviously, if the species is already listed, we don't need to do anything
+	if (data.hasOwnProperty(species)) {
+		return species;
+	}
+
+	// Any female variant of a species should map to its default/male counterpart
+	if (species.endsWith('-f'))
+		return species.replace('-f', '');
+
+	// Some forms are shared across many species, so it's probably easier to just remove those
+	const FORMS_TO_REMOVE = [
+		"-therian",
+		"-antique",
+		"-artisan",
+		"-masterpiece",
+		"-crowned"
+	]
+
+	for (let item of FORMS_TO_REMOVE) {
+		if (species.includes(item)) {
+			return species.replace(item, "");
+		}
+	}
+
+	// Some species have a LOT of forms, and those ones are easy to just map to their default one
+	const MAP_TO_DEFAULT = [
+		"pikachu",
+		"unown",
+		"castform",
+		"deoxys",
+		"burmy",
+		"wormadam",
+		"cherrim",
+		"shellos",
+		"gastrodon",
+		"rotom",
+		"shaymin",
+		"arceus",
+		"basculin",
+		"deerling",
+		"sawsbuck",
+		"kyurem",
+		"keldeo",
+		"meloetta",
+		"genesect",
+		"greninja",
+		"vivillon",
+		"flabebe",
+		"floette",
+		"florges",
+		"furfrou",
+		"aegislash",
+		"pumpkaboo",
+		"gourgeist",
+		"hoopa",
+		"oricorio",
+		"lycanroc",
+		"minior",
+		"silvally",
+		"necrozma",
+		"magearna",
+		"toxtricity",
+		"alcremie",
+		"calyrex",
+		"maushold",
+		"squawkabilly",
+		"dudunsparce",
+		"ogerpon",
+		"terapagos"
+	];
+
+	// Tatsugiri is a slightly special case, as it needs to account for its mega form since that has three variants for some reason
+	if (species.includes('tatsugiri')) {
+		if (species.includes('mega')) {
+			return 'tatsugiri-mega';
+		}
+		return 'tatsugiri';
+	}
+
+	// Urshifu is similar to Tatsugiri, except it has a gmax form instead of mega
+	if (species.includes('urshifu')) {
+		if (species.includes('gmax')) {
+			return 'urshifu-gmax';
+		}
+		return 'urshifu';
+	}
+
+	for (let item of MAP_TO_DEFAULT) {
+		if (species.includes(item)) {
+			return item;
+		}
+	}
 }
 
 const SPECIES_TOOLTIPS = {
@@ -280,13 +459,19 @@ const SPECIES_TOOLTIPS = {
 	'castform-sunny': "Can be differentiated with the move Sunny Day or any damaging Fire-type move",
 	'castform-rainy': "Can be differentiated with the move Rain Dance or any damaging Water-type move",
 	'castform-snowy': "Can be differentiated with the move Blizzard/Snowscape or any damaging Ice-type move",
-	'groudon-primal': "Can be differentiated with the move Precipice Blades",
-	'kyogre-primal': "Can be differentiated with the move Origin Pulse",
-	'rayquaza-mega': "Can be differentiated with the move Dragon Ascent",
+	'absol-megaz': "Can be differentiated by being an Alpha Pokemon transferred in from Legends Z-A with any damaging Ghost-type move",
+	'groudon-primal': "Can be differentiated by being transferred in from Legends Z-A with the move Precipice Blades",
+	'kyogre-primal': "Can be differentiated by being transferred in from Legends Z-A with the move Origin Pulse",
+	'latios-mega': "Can be differentiated by being transferred in from Legends Z-A with the move Luster Purge",
+	'latias-mega': "Can be differentiated by being transferred in from Legends Z-A with the move Mist Ball",
+	'rayquaza-mega': "Can be differentiated by being transferred in from Legends Z-A with the move Dragon Ascent",
 	'cherrim-sunshine': "Can be differentiated with the move Sunny Day",
-	'dialga-origin': "Can be differentiated with the move Roar of Time",
-	'palkia-origin': "Can be differentiated with the move Spacial Rend",
-	'giratina-origin': "Can be differentiated with the move Shadow Force",
+	'lucario-megaz': "Can be differentiated by being an Alpha Pokemon transferred in from Legends Z-A with only special attacks",
+	'dialga-origin': "Can be differentiated by being transferred in from Legends Arceus with the move Roar of Time",
+	'palkia-origin': "Can be differentiated by being transferred in from Legends Arceus with the move Spacial Rend",
+	'giratina-origin': "Can be differentiated by being transferred in from Legends Arceus with the move Shadow Force",
+	'heatran-mega': "Can be differentiated by being transferred in from Legends Z-A with the move Magma Storm",
+	'darkrai-mega': "Can be differentiated by being transferred in from Legends Z-A with the move Dark Void",
 	'darmanitan-zen': "Can be differentiated with the Zen Mode ability",
 	'darmanitan-galarzen': "Can be differentiated with the Zen Mode ability",
 	'meloetta-pirouette': "Can be differentiated with the move Relic Song",
@@ -298,10 +483,12 @@ const SPECIES_TOOLTIPS = {
 	'greninja-ash': "Can be differentiated with the Battle Bond ability",
 	'aegislash-blade': "Can be differentiated with the lack of the move King's Shield",
 	'zygarde-complete': "Can be differentiated with the Power Construct ability",
+	'zygarde-mega': "Can be differentiated by being transferred in from Legends Z-A with the move Core Enforcer",
 	'diancie-mega': "Can be differentiated by being transferred in from Legends Z-A with the move Diamond Storm",
 	'necrozma-dawnwings': "Can be differentiated with any damaging Ghost-type move",
 	'necrozma-duskmane': "Can be differentiated with any damaging Steel-type move",
 	'necrozma-ultra': "Can be differentiated with any damaging Dragon-type move",
+	'zeraora-mega': "Can be differentiated by being transferred in from Legends Z-A with the move Plasma Fists",
 	'zacian-crowned': "Can be differentiated with the move Iron Head",
 	'zamazenta-crowned': "Can be differentiated with the move Iron Head",
 	'calyrex-shadow': "Can be differentiated with any damaging Ghost-type move",
@@ -320,7 +507,7 @@ function tryGetTooltip(species)
 		return SPECIES_TOOLTIPS[species];
 	}
 
-	if (species.includes("-mega")) {
+	if (species.includes("-mega") || (species.includes('tatsugiri') && species.includes('mega'))) {
 		return "Can be differentiated by being an Alpha Pokemon transferred in from Legends Z-A";
 	}
 
@@ -492,7 +679,21 @@ const MEGA_DIM_MEGAS = [
 	"raichu-megax",
 	"raichu-megay",
 	"chimecho-mega",
+	"absol-megaz",
+	"staraptor-mega",
+	"lucario-megaz",
+	"heatran-mega",
+	"darkrai-mega",
+	"golurk-mega",
+	"meowstic-mega",
+	"crabominable-mega",
+	"golisopod-mega",
 	"zeraora-mega",
+	"scovillain-mega",
+	"glimmora-mega",
+	"tatsugiri-mega",
+	"tatsugiri-droopymega",
+	"tatsugiri-stretchymega",
 	"baxcalibur-mega"
 ];
 
@@ -528,7 +729,7 @@ function checkForm(species)
 			return document.getElementById('regionalToggle').checked;
 
 	// Mega Evolutions (w/ failsafe for Mega Floette and Mega Zygarde)
-	if (species.includes('-mega')) {
+	if (species.includes('-mega') || (species.includes('tatsugiri') && species.includes('mega'))) {
 		if (species === 'floette-mega')
 			return document.getElementById('azFloetteToggle').checked &&
 				document.getElementById('zaMegasToggle').checked;
@@ -538,8 +739,14 @@ function checkForm(species)
 		// Any megas from Legends Z-A or Mega Dimension have their own checks
 		if (ZA_MEGAS.includes(species))
 			return document.getElementById('zaMegasToggle').checked;
-		if (MEGA_DIM_MEGAS.includes(species))
+		if (MEGA_DIM_MEGAS.includes(species)) {
+			// Tatsugiri's droopy and stretchy mega forms should be excluded if Tatsugiri's forms are toggled off
+			if (species.includes('tatsugiri') && !species.includes('-mega')) {
+				return document.getElementById('megaDimMegasToggle').checked &&
+					document.getElementById('tatsuToggle').checked;
+			}
 			return document.getElementById('megaDimMegasToggle').checked;
+		}
 		return document.getElementById('megaToggle').checked;
 	}
 
@@ -637,7 +844,7 @@ function checkForm(species)
 	if (species.includes('genesect') || species.includes('-crowned') || species.includes('ogerpon'))
 		return document.getElementById('heldItemFormToggle').checked;
 
-	// In-battle transformations (Cherrim, Meloette, Keldeo, Aegislash, Ash-Greninja)
+	// In-battle transformations (Cherrim, Meloetta, Keldeo, Aegislash, Ash-Greninja)
 	if (species.includes('cherrim') || species.includes('meloetta') ||
 		species.includes('keldeo') || species.includes('aegislash') || species === 'greninja-ash')
 		return document.getElementById('battleFormToggle').checked;
