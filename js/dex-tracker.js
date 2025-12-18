@@ -47,7 +47,6 @@ const notInAnySwitchGame = [
 	'magearna',
 	'magearna-original',
 	'marshadow',
-	'zeraora',
 	'zarude',
 	'zarude-dada'
 ];
@@ -127,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		})
 	})
 
-	document.getElementById('speciesSearchBar').addEventListener('input', function(e) {
+	document.getElementById('speciesSearchBar').addEventListener('input', function() {
 		let searchedSpecies = document.getElementById('speciesSearchBar').value;
 		searchedSpecies = searchedSpecies.toLowerCase().replace(" ", "-");
 		let outputField = document.getElementById('speciesSearchResults');
