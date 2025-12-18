@@ -328,7 +328,8 @@ function refreshBoxes() {
 								newHeader.innerHTML = `Box ${j+1} (#${String(speciesNum).padStart(4, "0")}-`;
 
 							// Each box can only hold 30 Pokemon, so after the 30th one we need to start a new box
-							if (i >= 30)
+							// Don't do this if we're on the last Pokemon (Pecharunt)
+							if (i >= 30 && line !== 'pecharunt')
 							{
 								boxesGrid.appendChild(newBox);
 								i = 0;
