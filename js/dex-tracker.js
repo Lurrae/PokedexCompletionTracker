@@ -40,13 +40,8 @@ const notInAnySwitchGame = [
 	'deoxys-defense',
 	'deoxys-speed',
 	'victini',
-	'genesect',
-	'hoopa',
-	'hoopa-unbound',
-	'volcanion',
-	'magearna',
 	'magearna-original',
-	'marshadow',
+	'magearna-originalmega',
 	'zarude',
 	'zarude-dada'
 ];
@@ -252,7 +247,7 @@ function refreshBoxes() {
 								newMon.classList.add('has-diff-factor');
 								newMon.title = tip;
 							}
-							if (line === 'gimmighoul-roaming' || line === 'meltan' || line === 'melmetal')
+							if (line === 'gimmighoul-roaming')
 								newMon.classList.add('go-only');
 							let convertedForm = convertInvalidSpecies(speciesAvailData, line);
 							let isAvailable = false;
@@ -489,6 +484,8 @@ const SPECIES_TOOLTIPS = {
 	'necrozma-dawnwings': "Can be differentiated with any damaging Ghost-type move",
 	'necrozma-duskmane': "Can be differentiated with any damaging Steel-type move",
 	'necrozma-ultra': "Can be differentiated with any damaging Dragon-type move",
+	'magearna-mega': "Can be differentiated with the move Fleur Cannon",
+	'magearna-originalmega': "Can be differentiated with the move Fleur Cannon",
 	'zeraora-mega': "Can be differentiated by being transferred in from Legends Z-A with the move Plasma Fists",
 	'zacian-crowned': "Can be differentiated with the move Iron Head",
 	'zamazenta-crowned': "Can be differentiated with the move Iron Head",
@@ -503,12 +500,11 @@ const SPECIES_TOOLTIPS = {
 function tryGetTooltip(species)
 {
 	// Prioritize unique tooltips over the general ones for megas/gmax forms
-	// This currently only matters for Mega Rayquaza, as it's the only one with a unique differentiating factor
 	if (SPECIES_TOOLTIPS.hasOwnProperty(species)) {
 		return SPECIES_TOOLTIPS[species];
 	}
 
-	if (species.includes("-mega") || (species.includes('tatsugiri') && species.includes('mega'))) {
+	if (species.includes("-mega") || ((species.includes('tatsugiri') || species.includes('magearna')) && species.includes('mega'))) {
 		return "Can be differentiated by being an Alpha Pokemon transferred in from Legends Z-A";
 	}
 

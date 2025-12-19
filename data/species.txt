@@ -1241,6 +1241,8 @@ Necrozma-dawnwings
 Necrozma-ultra
 Magearna
 Magearna-original
+Magearna-mega
+Magearna-originalmega
 Marshadow
 Poipole
 Naganadel
