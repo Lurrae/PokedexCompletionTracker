@@ -686,6 +686,8 @@ const MEGA_DIM_MEGAS = [
 	"meowstic-mega",
 	"crabominable-mega",
 	"golisopod-mega",
+	"magearna-mega",
+	"magearna-originalmega",
 	"zeraora-mega",
 	"scovillain-mega",
 	"glimmora-mega",
@@ -742,6 +744,11 @@ function checkForm(species)
 			if (species.includes('tatsugiri') && !species.includes('-mega')) {
 				return document.getElementById('megaDimMegasToggle').checked &&
 					document.getElementById('tatsuToggle').checked;
+			}
+			// Magearna's original color mega form should be excluded if its Original form is toggled off by the event forms toggle
+			if (species.includes('tatsugiri') && !species.includes('-mega')) {
+				return document.getElementById('megaDimMegasToggle').checked &&
+					document.getElementById('eventToggle').checked;
 			}
 			return document.getElementById('megaDimMegasToggle').checked;
 		}
@@ -826,8 +833,8 @@ function checkForm(species)
 		return document.getElementById('fusionToggle').checked;
 	}
 
-	// Event-exclusive forms (Magearna, Zarude)
-	if (species.includes('magearna') || species.includes('zarude'))
+	// Event-exclusive forms (Ash-Greninja, Original Magearna, Zarude Dada)
+	if (species === 'greninja-ash' || species === 'magearna-original' || species === 'zarude-dada')
 		return document.getElementById('eventToggle').checked;
 
 	// Primal and origin forms
@@ -842,9 +849,9 @@ function checkForm(species)
 	if (species.includes('genesect') || species.includes('-crowned') || species.includes('ogerpon'))
 		return document.getElementById('heldItemFormToggle').checked;
 
-	// In-battle transformations (Cherrim, Meloetta, Keldeo, Aegislash, Ash-Greninja)
+	// In-battle transformations (Cherrim, Meloetta, Keldeo, Aegislash)
 	if (species.includes('cherrim') || species.includes('meloetta') ||
-		species.includes('keldeo') || species.includes('aegislash') || species === 'greninja-ash')
+		species.includes('keldeo') || species.includes('aegislash'))
 		return document.getElementById('battleFormToggle').checked;
 
 	// Automatically returns true for any forms not tied to the toggles

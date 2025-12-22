@@ -1416,8 +1416,8 @@ Zamazenta-crowned
 Eternatus
 Kubfu
 Urshifu
-Urshifu-gmax
 Urshifu-rapidstrike
+Urshifu-gmax
 Urshifu-rapidstrikegmax
 Zarude
 Zarude-dada
