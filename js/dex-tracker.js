@@ -229,9 +229,9 @@ function refreshBoxes() {
 					newHeader.classList.add('box-header');
 					speciesList.forEach(line => {
 						line = line.trim();
-						let url = `http://play.pokemonshowdown.com/sprites/gen5/${line}.png`;
+						let url = `https://play.pokemonshowdown.com/sprites/gen5/${line}.png`;
 						if (line.includes('/'))
-							url = `http://play.pokemonshowdown.com/sprites/${line}.png`;
+							url = `https://play.pokemonshowdown.com/sprites/${line}.png`;
 						// Check if this is a form of a Pokemon, and if so, make sure it's not disabled
 						// The Pokemon won't be added if checkForm determines that it is disabled
 						if (checkForm(line))
