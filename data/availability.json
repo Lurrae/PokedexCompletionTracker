@@ -557,6 +557,7 @@
 	"gabite": [ "shield-crown", "bdiamond", "spearl", "pla", "scarlet", "violet", "za" ],
 	"garchomp": [ "shield-crown", "bdiamond", "spearl", "pla", "scarlet", "violet", "za" ],
 	"garchomp-mega": [ "za" ],
+	"garchomp-megaz": [ "za-megadim" ],
 	"munchlax": [ "sword", "shield", "bdiamond", "spearl", "pla", "scarlet-mask", "violet-mask" ],
 	"riolu": [ "sword", "shield", "bdiamond", "spearl", "pla", "scarlet", "violet", "za" ],
 	"lucario": [ "sword", "shield", "bdiamond", "spearl", "pla", "scarlet", "violet", "za" ],
