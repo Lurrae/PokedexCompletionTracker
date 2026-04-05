@@ -680,6 +680,7 @@ const MEGA_DIM_MEGAS = [
 	"absol-megaz",
 	"staraptor-mega",
 	"lucario-megaz",
+	"garchomp-megaz",
 	"heatran-mega",
 	"darkrai-mega",
 	"golurk-mega",
@@ -728,8 +729,8 @@ function checkForm(species)
 			species.includes('-hisui') || species.includes('-paldea'))
 			return document.getElementById('regionalToggle').checked;
 
-	// Mega Evolutions (w/ failsafe for Mega Floette and Mega Zygarde)
-	if (species.includes('-mega') || (species.includes('tatsugiri') && species.includes('mega'))) {
+	// Mega Evolutions (w/ failsafe for Mega Floette, Mega Zygarde, and Mega Magearna)
+	if (species.includes('-mega') || ((species.includes('tatsugiri') || species.includes('magearna')) && species.includes('mega'))) {
 		if (species === 'floette-mega')
 			return document.getElementById('azFloetteToggle').checked &&
 				document.getElementById('zaMegasToggle').checked;
@@ -746,7 +747,7 @@ function checkForm(species)
 					document.getElementById('tatsuToggle').checked;
 			}
 			// Magearna's original color mega form should be excluded if its Original form is toggled off by the event forms toggle
-			if (species.includes('tatsugiri') && !species.includes('-mega')) {
+			if (species === 'magearna-originalmega') {
 				return document.getElementById('megaDimMegasToggle').checked &&
 					document.getElementById('eventToggle').checked;
 			}

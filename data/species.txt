@@ -693,6 +693,7 @@ Gabite-f
 Garchomp
 Garchomp-f
 Garchomp-mega
+Garchomp-megaz
 Munchlax
 Riolu
 Lucario
