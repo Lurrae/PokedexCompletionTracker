@@ -1155,7 +1155,7 @@ Cutiefly
 Ribombee
 Rockruff
 Lycanroc-midnight
-Lycanroc-midday
+Lycanroc
 Lycanroc-dusk
 Wishiwashi
 Mareanie
