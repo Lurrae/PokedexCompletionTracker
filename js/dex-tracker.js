@@ -874,18 +874,6 @@ function isDefaultForm(species)
 	if (species === 'burmy-plant' || species === 'wormadam-plant')
 		return true;
 
-	// Shellos and Gastrodon have "-east" as their default forms
-	if (species === 'shellos-east' || species === 'gastrodon-east')
-		return true;
-
-	// Deerling and Sawsbuck have "-spring" as their default forms
-	if (species === 'deerling-spring' || species === 'sawsbuck-spring')
-		return true;
-
-	// Lycanroc has "-midday" as its default form
-	if (species === 'lycanroc-midday')
-		return true;
-
 	// Return false for anything else, since it's almost certainly a form
 	return false;
 }
