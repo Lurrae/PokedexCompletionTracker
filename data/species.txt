@@ -1154,8 +1154,8 @@ Oricorio-sensu
 Cutiefly
 Ribombee
 Rockruff
-Lycanroc-midnight
 Lycanroc
+Lycanroc-midnight
 Lycanroc-dusk
 Wishiwashi
 Mareanie
