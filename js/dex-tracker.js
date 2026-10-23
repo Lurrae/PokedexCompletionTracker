@@ -34,11 +34,6 @@ const notInAnySwitchGame = [
 	'pikachu-alola',
 	'pikachu-partner',
 	'pikachu-world',
-	'celebi',
-	'deoxys',
-	'deoxys-attack',
-	'deoxys-defense',
-	'deoxys-speed',
 	'victini',
 	'magearna-original',
 	'magearna-originalmega',
@@ -48,12 +43,15 @@ const notInAnySwitchGame = [
 const gameNames = {
 	"go": "Pokemon GO",
 	"home": "Pokemon HOME Gift/Event",
+	"fr": "Fire Red (Switch)",
+	"lg": "Leaf Green (Switch)",
 	"lg-pikachu": "Let's Go Pikachu",
 	"lg-eevee": "Let's Go Eevee",
 	"sword": "Sword",
 	"shield": "Shield",
 	"sword-armor": "Isle of Armor (Sword)",
 	"shield-armor": "Isle of Armor (Shield)",
+	"swoshi-dlc": "Expansion Pass",
 	"sword-crown": "Crown Tundra (Sword)",
 	"shield-crown": "Crown Tundra (Shield)",
 	"bdiamond": "Brilliant Diamond",
@@ -65,6 +63,7 @@ const gameNames = {
 	"violet-mask": "The Teal Mask (Violet)",
 	"scarlet-disc": "The Indigo Disc (Scarlet)",
 	"violet-disc": "The Indigo Disc (Violet)",
+	"sv-dlc": "Hidden Treasure of Area Zero",
 	"za": "Legends Z-A",
 	"za-megadim": "Mega Dimension"
 };
@@ -156,14 +155,46 @@ document.addEventListener('DOMContentLoaded', function() {
 							if (game.includes('+')) {
 								let games = game.split('+');
 
-								for (let i in games) {
-									text += gameNames[games[i]];
+								if (game === "home+go")
+								{
+									text += gameNames["home"];
+									text += " w/ any transfer from "
+									text += gameNames["go"];
+								}
+								else
+								{
+									let ending = ""
 
-									if (i === "0") {
-										text += " w/ save data from "
-									} else if (i < games.length - 1) {
-										text += "/"
+									if (game.includes("sword+sword-armor+sword-crown+shield+shield-armor+shield-crown"))
+									{
+										games.splice(games.indexOf("sword-armor"), 1);
+										games.splice(games.indexOf("sword-crown"), 1);
+										games.splice(games.indexOf("shield-armor"), 1);
+										games.splice(games.indexOf("shield-crown"), 1);
+										games.push("swoshi-dlc")
 									}
+									else if (game.includes("scarlet+scarlet-mask+scarlet-disc+violet+violet-mask+violet-disc"))
+									{
+										games.splice(games.indexOf("scarlet-mask"), 1);
+										games.splice(games.indexOf("scarlet-disc"), 1);
+										games.splice(games.indexOf("violet-mask"), 1);
+										games.splice(games.indexOf("violet-disc"), 1);
+										games.push("sv-dlc")
+									}
+
+									for (let i in games) {
+										text += gameNames[games[i]];
+
+										if (i === "0") {
+											text += games[i] === "home" ? " [requires completed dex from " : " w/ save data from "
+											if (games[i] === "home")
+												ending += "]"
+										} else if (i < games.length - 1) {
+											text += " + "
+										}
+									}
+
+									text += ending
 								}
 							}
 							if (text === "") {
@@ -265,12 +296,13 @@ function refreshBoxes() {
 
 								// Some games require save data from another- namely Gmax Pikachu/Eevee in Swo/Shi and Mew and Jirachi in BD/SP
 								// These are another special case that needs to be accounted for
+								// This also accounts for species only available through HOME gifts, such as Celebi
 								if (game.includes('+')) {
 									let games = game.split('+');
 									let gameCount = 0;
 
 									for (let neededGame of games) {
-										if (document.getElementById(neededGame).checked)
+										if (neededGame === "home" || neededGame === "go" || document.getElementById(neededGame).checked)
 											gameCount++;
 									}
 
